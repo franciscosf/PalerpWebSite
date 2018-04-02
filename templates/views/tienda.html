@@ -22,6 +22,16 @@ Tienda
 </div>
 {% endif %}
 <div class="container">
+	{% if user.is_authenticated %}
+	{% else %}
+	<div class="row">
+		<div class="navbar-fixed col s12 m12 l9">
+			<h5 class="center-align red-text">Para realizar cualquier compra necesita iniciar sesion. <a class="waves-effect waves-light btn white-text red darken-3" href="{% url 'login' %}"><i class="material-icons">account_circle</i><span class=""> Iniciar Sesion</span></a></h5>
+			<hr>
+			
+		</div>
+	</div>
+	{% endif %}
 	<div class="row" id="tienda" style="min-height: 800px;">
 		<div class="col s12 m12 l9 ">
 			<h1 class="black-text center-align "><i class="material-icons medium">store</i> Tienda</h1>
@@ -128,10 +138,10 @@ Tienda
 	</div>
 	<div class="row hide" id="cotizacion" style="min-height: 800px;">
 	<div class="col s12">
-		<h5 class="center-align"><a class="waves-effect left waves-light btn-large white-text red darken-3" id="btnVolverTiendaCotizacion"><i class="material-icons">store</i><span class="hide-on-med-and-down"> Tienda</span></a></h5>
+		<h5 class="center-align"><a class="waves-effect left waves-light btn-large white-text red darken-3" id="btnVolverTiendaCotizacion"><i class="material-icons">store</i><span class="hide-on-med-and-down"> Editar</span></a></h5>
 		<h2 class="black-text center-align">Resumen de Compra</h2>
 		<hr>
-	 	<h5 class="center-align">Este es el detalle de su compra, revise que todos los items sean los que usted ha seleccionado, si usted esta conforme con la compra presione el boton COMPRAR que esta en la parte final de la tabla, en caso de querer modificar algun item presione el boton TIENDA que se encuentra en la parte superior.</h5>
+	 	<h5 class="center-align">Este es el detalle de su compra, revise que todos los items sean los que usted ha seleccionado, si usted esta conforme con la compra presione el boton COMPRAR que esta en la parte final de la tabla, en caso de querer modificar algun item presione el boton EDITAR que se encuentra en la parte superior.</h5>
 		<hr>
 		<br>
 		<table class="highlight" id = 'tablaResumen'>
