@@ -24,11 +24,11 @@ Tienda
 <div class="container">
 	{% if user.is_authenticated %}
 	{% else %}
-	<div class="row">
-		<div class="navbar-fixed col s12 m12 l9">
+	<div class="row" id="needLogin">
+		<div class="col s12 m12 l9">
 			<h5 class="center-align red-text">Para realizar cualquier compra necesita iniciar sesion. <a class="waves-effect waves-light btn white-text red darken-3" href="{% url 'login' %}"><i class="material-icons">account_circle</i><span class=""> Iniciar Sesion</span></a></h5>
 			<hr>
-			
+
 		</div>
 	</div>
 	{% endif %}
@@ -569,8 +569,15 @@ Tienda
 			var a2 = document.createElement('a')
 			a2.classList.add('waves-effect', 'waves-light', 'btn', 'red', 'darken-3')
 			a2.id = "btnShop1" + producto['categoria'] + producto['nombre']
-			a2.addEventListener('click', ShopOnclick)
+
 			a2.innerHTML = "Agregar "
+			if( document.getElementById('needLogin') != null){
+				a2.addEventListener('click', function (){
+					M.toast({html: 'Para agregar al cosas al carrito debe iniciar sesion', classes: 'rounded'});
+				})
+			}else{
+				a2.addEventListener('click', ShopOnclick)
+			}
 
 			var i1 = document.createElement('i')
 			i1.classList.add('material-icons')

@@ -6,7 +6,7 @@
 {% block content %}
 {% if user.is_authenticated %}
 <div class="hide">
-	<form id='formCompra' class="" action="http://desarrollo.paytoperu.com/esp/payments" method="post" novalidate>
+	<form id='formCompra' class="" action="http://desarrollo.paytoperu.com/eng/payments" method="post" novalidate>
 		<input type="number" name="importe" id="importe" decimals="2" decimal-point="." value="{{ compra.importe }}" required />
 		<input type="hidden" name="keymerchant" id="keymerchant" value="{{ RUCPalerp }}"  required/>
 		<input type="text" name="codigo_transaccion" id="codigo_transaccion" value="{{ compra.codigo }}" required/>
