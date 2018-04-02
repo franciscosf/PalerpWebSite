@@ -1,0 +1,124 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% block title %}Contacto{% endblock %}
+{% block content %}
+<div class="slider">
+  <ul class="slides">
+    <li >
+      <img src="{% static 'images/sli11.jpg' %}">
+      <div class="caption center-align">
+        <h1 class="white-text"><b>Contacto</b></h1>
+      </div>
+    </li>
+    <li>
+      <img src="{% static 'images/sli21.jpg' %}">
+      <div class="caption left-align">
+        <h1 class="white-text"><b>Contacto</b></h1>
+      </div>
+    </li>
+    <li>
+      <img src="{% static 'images/sli31.jpg' %}">
+      <div class="caption right-align">
+        <h1 class="white-text"><b>Contacto</b></h1>
+      </div>
+    </li>
+  </ul>
+</div>
+<br>
+<div class="container">
+  <div class="row">
+    <div class="col s12 m12 l6">
+      <div class="row">
+        <div class="col m12 l12">
+          <div class="card hoverable white" >
+            <div class="card-content black-text">
+              <h5 class="card-title center-align" style="font-size:40px"><strong>Dejanos contactarte</strong></h5>
+              <div class="row">
+
+                <form class="col s12" method="post" action="{% url 'index' %}">
+                  {% csrf_token %}
+                  {{ form.non_field_errors }}
+                  <div class="row">
+                    <div class="input-field col s12">
+                      {{ form.RUC.errors }}
+                      <i class="material-icons prefix">account_box</i>
+                      {{ form.RUC }}
+                      <label for="{{ form.RUC.id_for_label }}">RUC</label>
+                    </div>
+                    <div class="input-field col s12">
+                      {{ form.nombre.errors }}
+                      <i class="material-icons prefix">account_circle</i>
+                      {{ form.nombre }}
+                      <label for="{{ form.nombre.id_for_label }}">Nombres y Apellidos</label>
+                    </div>
+                    <div class="input-field col s12">
+                      {{ form.email.errors }}
+                      <i class="material-icons prefix">mail</i>
+                      {{ form.email }}
+                      <label for="{{ form.email.id_for_label }}">Email</label>
+                    </div>
+                    <div class="input-field col s12">
+                      {{ form.telefono.errors }}
+                      <i class="material-icons prefix">phone</i>
+                      {{ form.telefono }}
+                      <label for="{{ form.telefono.id_for_label }}">Telefono</label>
+                    </div>
+
+                  </div>
+                  <button class="btn waves-effect waves-light light-blue darken-2" type="submit" name="action">Contactenme!
+                    <i class="material-icons right">send</i>
+                  </button>
+                </form>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="col s12 m12 l6">
+      <div id="map" style="width:100%;height:400px;background:#fcfcfc"></div>
+      <div class="row">
+        <div class="col s6">
+          <p><i class="material-icons" style="font-size:30px">local_phone</i> (084) 28-76-41</p>
+          <p><i class="material-icons" style="font-size:30px">email</i> tsolorzano@palerp.com</p>
+        </div>
+        <div class="col s6">
+          <p><i class="material-icons" style="font-size:30px">smartphone</i> 985-855-998</p>
+          <p><i class="material-icons" style="font-size:30px">location_on</i> Calle SacsayHuaman F - 12 Urb. Manuel Prado - Cusco</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+
+
+  </div>
+</div>
+{% endblock %}
+{% block extrajs %}
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('.slider').slider({
+      indicators: false,
+      height: 400,
+      interval: 6000,
+  });
+  });
+  function initMap() {
+    //-13.532346, -71.954123
+    var uluru = { lat: -13.523127, lng: -71.951330 };
+    var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 15,
+        center: uluru
+    });
+    var marker = new google.maps.Marker({
+        position: uluru,
+        map: map
+    });
+  }
+
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCl3pL7joUlaJUZGZf3vLMcj-aYjvVJbN0&callback=initMap"></script>
+{% endblock %}

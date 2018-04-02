@@ -1,0 +1,333 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+Palerp
+{% endblock %}
+
+{% block content %}
+
+<div class="slider">
+  <ul class="slides">
+    <li>
+      <img src="{% static 'images/sli11.jpg' %}" alt="sliderImage1">
+      <div class="caption left-align">
+        <h3 class="white-text"><b>Palerp</b></h3>
+        <h5 class="light white-text"><b>Dedicados al desarrollo de software</b></h5>
+      </div>
+    </li>
+    <li>
+      <img src="{% static 'images/sli31.jpg' %}" alt="sliderImage2">
+      <div class="caption left-align">
+        <h3 class="white-text"><b>iFacturacion</b></h3>
+        <h5 class="light white-text"><b>Tu software a medida.</b></h5>
+      </div>
+    </li>
+    <li>
+      <img src="{% static 'images/sli21.jpg' %}" alt="sliderImage3">
+      <div class="caption left-align">
+        <h3 class="white-text"><b>PideloApp</b></h3>
+        <h5 class="light white-text"><b>Disfruta del tiempo.</b></h5>
+      </div>
+    </li>
+  </ul>
+</div>
+<br>
+<div class="row hide-on-med-and-down">
+  <div class="col l3 offset-l8">
+    <div class="toc-wrapper pinned" style="top: 70px;z-index: 100">
+      <div class="container">
+        <div class="row">
+          <div class="col m12 l12">
+            <div class="card hoverable white" >
+              <div class="card-content black-text">
+                <h5 class="card-title"><strong>Dejanos contactarte</strong></h5>
+                <hr>
+                <p>Envianos tus datos y te contactaremos.</p>
+                <hr>
+                <div class="row">
+                  <form class="col s12" method="post" action="{% url 'index' %}">
+                    {% csrf_token %}
+                    {{ form.non_field_errors }}
+                    <div class="row">
+                      <div class="input-field col s12">
+                        {{ form.RUC.errors }}
+                        <i class="material-icons prefix">account_box</i>
+                        {{ form.RUC }}
+                        <label for="{{ form.RUC.id_for_label }}">RUC</label>
+                      </div>
+                      <div class="input-field col s12">
+                        {{ form.nombre.errors }}
+                        <i class="material-icons prefix">account_circle</i>
+                        {{ form.nombre }}
+                        <label for="{{ form.nombre.id_for_label }}">Nombres y Apellidos</label>
+                      </div>
+                      <div class="input-field col s12">
+                        {{ form.email.errors }}
+                        <i class="material-icons prefix">mail</i>
+                        {{ form.email }}
+                        <label for="{{ form.email.id_for_label }}">Email</label>
+                      </div>
+                      <div class="input-field col s12">
+                        {{ form.telefono.errors }}
+                        <i class="material-icons prefix">phone</i>
+                        {{ form.telefono }}
+                        <label for="{{ form.telefono.id_for_label }}">Telefono</label>
+                      </div>
+
+                    </div>
+                    <button class="btn waves-effect waves-light light-blue darken-2" type="submit" name="action" id="btnSubmitForm">Contactenme!
+                      <i class="material-icons right">send</i>
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="section white hide-on-large-only">
+  <div class="container">
+    <div class="row">
+      <div class="col m12 l12 l12">
+        <div class="card white" >
+          <div class="card-content black-text">
+            <h5 class="card-title center-align"><strong>Dejanos contactarte</strong></h5>
+            <hr>
+            <p class="center-align">Envianos tus datos y te contactaremos.</p>
+            <hr>
+            <div class="row">
+              <form class="col s12" method="post" action="{% url 'index' %}">
+                {% csrf_token %}
+                <div class="row">
+                  <div class="input-field col s12">
+                    <i class="material-icons prefix">account_box</i>
+                    <input id="id_RUC1" maxlength="12" name="RUC" type="tel" />
+                    <label for="id_RUC1">RUC</label>
+                  </div>
+                  <div class="input-field col s12">
+                    <i class="material-icons prefix">account_circle</i>
+                    <input id="id_nombre1" maxlength="100" name="nombre" type="text" />
+                    <label for="id_nombre1">Nombres y Apellidos</label>
+                  </div>
+                  <div class="input-field col s12">
+                    <i class="material-icons prefix">mail</i>
+                    <input id="id_email1" maxlength="150" name="email" type="email" />
+                    <label for="id_email1">Email</label>
+                  </div>
+                  <div class="input-field col s12">
+                    <i class="material-icons prefix">phone</i>
+                    <input id="id_telefono1" maxlength="15" name="telefono" type="tel" />
+                    <label for="id_telefono1">Telefono</label>
+                  </div>
+
+                </div>
+                <a class="btn waves-effect waves-light light-blue darken-2" id="btnEnviarForm1">Contactenme!
+                  <i class="material-icons right">send</i>
+                </a>
+              </form>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section white">
+  <div class="row container">
+    <div class="col s12 m12 l9">
+      <h3 class="black-text center-align">Nosotros</h3>
+      <hr class="">
+    </div>
+  </div>
+  <div class="row container">
+    <div class="col s12 m6 l5" >
+      <p class="black-text">La facturación electrónica se ha convertido en una pieza clave en la modernización de la actividad empresarial, razón por la cual debes contemplarla hoy como la mejor práctica en el logro de eficiencias de tu negocio.
+      Mediante la facturación electrónica tendrás la oportunidad de estar en una red de negocios, en donde todas las empresas podrán intercambiar documentos comerciales de manera electrónica. Ello les permitirá lograr mayor eficiencia en sus procesos logísticos y contables, ahorrar costos de almacenamiento, minimizar el riesgo de facturas erradas y ayudar en la protección del medio ambiente, y como valor agregado, tener acceso a mejores productos financieros, a través del factoring electrónico.</p>
+    </div>
+    <div class="col m6 l4 hide-on-small-only">
+      <h5 class="center-align"><img src="{% static 'images/logo.png' %}" alt="logoPalerp"></h5>
+    </div>
+
+  </div>
+  <div class="row container">
+      <h5 class="left-align"><a href="{% url 'nosotros' %}" class="waves-effect waves-light btn-large white-text red darken-3">Ver mas</a></h5>
+  </div>
+</div>
+
+<div class="parallax-container"  style="height:400px">
+  <div class="parallax"><img src="{% static 'images/fp2.jpg'%}" alt="parallaxImage1" ></div>
+</div>
+
+<div class="section white">
+
+  <div class="row container">
+    <div class="col s12 m12 l9">
+      <h3 class="black-text center-align">Productos y Servicios</h3>
+      <hr class="">
+    </div>
+  </div>
+
+  <div class="row container">
+    <div class="col s12 m12 l9">
+      <div class="row">
+        <div class="col s12 m4 l6">
+          <div class="card hoverable">
+          <a href="#"><div class="card-image">
+              <img src="{% static 'images/facturacion-electronica.jpg' %}" height="300px" alt="facturacion-electronicaImage">
+              <span class="card-title">Facturación Electronica</span>
+            </div>
+            <div class="card-content">
+              <p></p>
+            </div>
+          </div></a>
+        </div>
+        <div class="col s12 m4 l6">
+          <a href="#"><div class="card hoverable">
+            <div class="card-image">
+              <img src="{% static 'images/software.jpg' %}" height="300px" alt="SoftwareImage">
+              <span class="card-title">Software</span>
+            </div>
+            <div class="card-content">
+              <p></p>
+            </div>
+          </div></a>
+        </div>
+        <div class="col s12 m4 l6 hide-on-large-only">
+          <a href="#"><div class="card hoverable">
+            <div class="card-image">
+              <img src="{% static 'images/hardware.jpg' %}" height="300px" alt="HardwareImage1">
+              <span class="card-title">Hardware</span>
+            </div>
+            <div class="card-content">
+              <p></p>
+            </div>
+          </div></a>
+        </div>
+      </div>
+
+      <div class="row hide-on-med-and-down">
+        <div class="col s12 m4 l6 ">
+          <a href="#"><div class="card hoverable">
+            <div class="card-image">
+              <img src="{% static 'images/hardware.jpg' %}" height="300px" alt="HardwareImage2">
+              <span class="card-title">Hardware</span>
+            </div>
+            <div class="card-content">
+              <p></p>
+            </div>
+          </div></a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+<div class="parallax-container" style="height:400px">
+      <div class="parallax"><img src="{% static 'images/fp4.jpg'%}"></div>
+    </div>
+
+<div class="section white">
+
+  <div class="row container">
+    <div class="col s12 m12 l9">
+      <h3 class="black-text center-align">Noticias</h3>
+      <hr class="">
+    </div>
+  </div>
+
+  <div class="row container">
+    <div class="col s12 m12 l9">
+      <div class="row">
+        <ul class="collapsible ">
+          <li>
+            <div class="collapsible-header"><i class="material-icons">library_books</i>PideloApp</div>
+            <div class="collapsible-body cyan lighten-4"><span>Una nueva aplicacion que permite el manejo de restaurantes tanto en el aspecto administrativo y funcional.</span></div>
+          </li>
+          <li>
+            <div class="collapsible-header"><i class="material-icons">library_books</i>iFacturacion Pagina Web</div>
+            <div class="collapsible-body cyan lighten-4"><span>Desde ahora nuestro software de iFacturacion ya cuenta con su pagina web donde puedes concer mas de como trabajo nuestro software y mucho mas.</span></div>
+          </li>
+          <li>
+            <div class="collapsible-header"><i class="material-icons">library_books</i>iFacturacion Sistema Web</div>
+            <div class="collapsible-body cyan lighten-4"><span>Ahora nuestro software de iFacturacion contara con un sistema web desde donde tu como cliente podras facturar imprimir tus boletas y comprantes desde la web.</span></div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="row containe hide">
+      <h5 class="left-align"><a href="{% url 'nosotros' %}" class="waves-effect waves-light btn-large white-text red darken-3">Ver mas</a></h5>
+  </div>
+</div>
+
+<div class="parallax-container" style="height:400px">
+      <div class="parallax"><img src="{% static 'images/fp3.jpg'%}"></div>
+    </div>
+
+<div class="section white">
+  <div class="row container">
+    <div class="col s12 m12 l9">
+      <h3 class="black-text center-align">Redes Sociales</h3>
+      <hr class="">
+    </div>
+  </div>
+  <div class="row container">
+    <div class="col s12 m12 l9">
+      <h5 class="center-align white-text"><i class="fab fa-facebook-square" style="font-size:75;color:#3b5998"></i>___<i class="fab fa-youtube" style="font-size:75;color:#cc181e"></i>___<i class="fab fa-whatsapp" style="font-size:75;color:#128c7e"></i></h5>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}
+
+{% block extrajs %}
+<script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+<script>
+    $(document).ready(function(){
+      $('.slider').slider({
+        indicators: false,
+        height: 650,
+        interval: 6000,
+      });
+      $(document).ready(function() {
+        M.updateTextFields();
+      });
+      $(document).ready(function(){
+        $('.parallax').parallax();
+      });
+      $(document).ready(function(){
+        $('.collapsible').collapsible();
+      });
+    });
+
+    setTimeout(function (){
+      var btnEnviarForm1 = document.getElementById('btnEnviarForm1')
+      btnEnviarForm1.addEventListener('click', function (ev){
+        var ruc = document.getElementById('id_RUC')
+        var ruc1 = document.getElementById('id_RUC1')
+        ruc.value = ruc1.value
+        var nombre = document.getElementById('id_nombre')
+        var nombre1 = document.getElementById('id_nombre1')
+        nombre.value = nombre1.value
+        var email = document.getElementById('id_email')
+        var email1 = document.getElementById('id_email1')
+        email.value =  email1.value
+        var telefono = document.getElementById('id_telefono')
+        var telefono1 = document.getElementById('id_telefono1')
+        telefono.value = telefono1.value
+        var btnSubmitForm = document.getElementById('btnSubmitForm')
+        btnSubmitForm.click()
+      })
+    },0)
+</script>
+{% endblock %}

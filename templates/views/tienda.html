@@ -1,0 +1,893 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+Tienda
+{% endblock %}
+
+{% block extraMeta %}
+{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<div class="hide">
+	<form action="{% url 'tienda' %}" method="post" novalidate>
+		{% csrf_token %}
+		{{ form.as_p }}
+		<input type="submit" name="send" value="send" id="btnSubmitForm">
+	</form>
+	<form >
+		<input id="id_user" type="number" name="id_user" value="{{ request.user.id }}">
+	</form>
+</div>
+{% endif %}
+<div class="container">
+	<div class="row" id="tienda" style="min-height: 800px;">
+		<div class="col s12 m12 l9 ">
+			<h1 class="black-text center-align "><i class="material-icons medium">store</i> Tienda</h1>
+			<hr>
+			<div class="row" id="categorias">
+
+			</div>
+			<div id="titulos">
+
+			</div>
+			<div class="row" id="contProductos">
+
+	  	</div>
+  	</div>
+		<div id="modal1" class="modal modal-fixed-footer">
+    	<div class="modal-content ">
+				<div class="row">
+					<div class="col s12 m4 l4">
+						<img class="materialboxed" src="{% static 'images/noimage.jpg' %}" alt="" height="200px" >
+					</div>
+					<div class="col s12 m8 l8">
+						<h3 id="nombreProducto"></h3>
+						<p>Codigo: <span id="codigoProducto"></span></p>
+						<p>MiniCodigo: <span id="miniCodigoProducto"></span></p>
+						<p>Codigo del Fabricante: <span id="codigoFabricanteProducto"></span></p>
+					</div>
+				</div>
+				<div class="row">
+					<h5>Caracteristicas: </h5>
+					<br>
+					<div class="" id = "tableContainer">
+
+					</div>
+				</div>
+				<br>
+			</div>
+			<div class="modal-footer" style="height:100px;">
+				<div class="container">
+					<div class="row">
+						<div class="col s6">
+							<h5 class="left-align"><a class="waves-effect waves-light btn red darken-3" id="btnVolverTienda2"><i class="material-icons white-text">arrow_back</i> Volver</a></h5>
+						</div>
+						<div class="col s6" id="divBtnAgregar3">
+							<h5 class="right-align"><a class="waves-effect waves-light btn red darken-3"><i class="material-icons white-text">shopping_cart</i> Agregar</a></h5>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+  	<div class="col m4 l3 hide-on-med-and-down">
+  		<div class="toc-wrapper pinned" style="top: 70px;z-index: 100">
+	  		<div class="container" >
+	  			<div class="row">
+		        <div class="col s12 m12 l12">
+		          <div class="card hoverable white" >
+		            <div class="card-content black-text">
+		              <h5 class="card-title"><strong><i class="material-icons" style="font-size:35px">shopping_cart</i>Carrito de Compras</strong></h5>
+		              <hr>
+		              <p>Aqui solo se muestra los objetos que usted esta seleccionando. Esto no lo compromete a pagar nada.</p>
+		              <hr>
+		              <div style="height: 220px;overflow: auto;">
+		               	<ul class="collection" id="carrito">
+
+									  </ul>
+								 	</div>
+		            </div>
+		            <div class="card-action">
+		              	<li>Total<i class="right" id="totalCarrito">S/. 0.00</i></li>
+		            </div>
+		          </div>
+		          <h5 class=""><a class="waves-effect left waves-light btn white red-text text-darken-3" id="btnVaciarCarrito"><i class="material-icons">delete</i><span class="hide-on-med-and-down"> Vaciar</span></a></h5>
+		          <h5 class=""><a class="waves-effect right waves-light btn white red-text text-darken-3" id="btnVerCotizacion"><i class="material-icons">shopping_cart</i><span class="hide-on-med-and-down"> Comprar</span></a></h5>
+		        </div>
+		      </div>
+	  		</div>
+  		</div>
+  	</div>
+		<div class="fixed-action-btn hide-on-large-only">
+		  <a class="btn-floating btn-large red  modal-trigger" href="#modalTienda">
+		    <i class="large material-icons white red-text">shopping_cart</i>
+		  </a>
+		</div>
+		<div id="modalTienda" class="modal modal-fixed-footer">
+	    <div class="modal-content">
+				<h5 class="card-title"><strong><i class="material-icons" style="font-size:35px">shopping_cart</i>Carrito de Compras</strong></h5>
+				<hr>
+				<p>Aqui solo se muestra los objetos que usted esta seleccionando. Esto no lo compromete a pagar nada.</p>
+				<hr>
+				<div style="height: 220px;overflow: auto;">
+					<ul class="collection" id="carrito1">
+
+					</ul>
+				</div>
+
+	    </div>
+	    <div class="modal-footer" style="height:100px">
+				<li>Total<i class="right" id="totalCarrito1">S/. 0.00</i></li>
+				<hr>
+	      <a class="modal-action right waves-effect waves-green btn-flat " id="btnVerCotizacion1">Comprar</a>
+				<a class="modal-action left modal-close waves-effect waves-green btn-flat " >Cerrar</a>
+	    </div>
+	  </div>
+	</div>
+	<div class="row hide" id="cotizacion" style="min-height: 800px;">
+	<div class="col s12">
+		<h5 class="center-align"><a class="waves-effect left waves-light btn-large white-text red darken-3" id="btnVolverTiendaCotizacion"><i class="material-icons">store</i><span class="hide-on-med-and-down"> Tienda</span></a></h5>
+		<h2 class="black-text center-align">Resumen de Compra</h2>
+		<hr>
+	 	<h5 class="center-align">Este es el detalle de su compra, revise que todos los items sean los que usted ha seleccionado, si usted esta conforme con la compra presione el boton COMPRAR que esta en la parte final de la tabla, en caso de querer modificar algun item presione el boton TIENDA que se encuentra en la parte superior.</h5>
+		<hr>
+		<br>
+		<table class="highlight" id = 'tablaResumen'>
+      <thead class="left-align">
+        <tr>
+					<th>Item</th>
+          <th>Nombre</th>
+          <th>Cantidad</th>
+					<th>Vr. Unitario</th>
+					<th>Vr. Total</th>
+        </tr>
+      </thead>
+			<tbody id="tbodyResumenCompra">
+
+			</tbody>
+  	</table>
+		<br>
+		{% if user.is_authenticated %}
+			<h5 class=""><a class="waves-effect right waves-light btn-large white-text red darken-3" id="btnComprar"><i class="material-icons">shopping_cart</i><span class=""> Comprar</span></a></h5>
+		{% else %}
+			<div class="row">
+				<h5 class=""><a class="waves-effect right waves-light btn-large white-text red darken-3 disabled"><i class="material-icons">shopping_cart</i><span class=""> Comprar</span></a></h5>
+			</div>
+			<div class="row">
+				<p class="right"> Para realizar una compra debe iniciar sesion.</p>
+			</div>
+			<div class="row">
+				<h5 class=""><a class="waves-effect right waves-light btn-large white-text red darken-3" href="{% url 'login' %}"><i class="material-icons">account_circle</i><span class=""> Iniciar Sesion</span></a></h5>
+			</div>
+
+		{% endif %}
+
+
+  	</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block extrajs %}
+<script type="text/javascript">
+	//inicialimos el modal
+	$(document).ready(function(){
+			$('.modal').modal();
+	});
+  $(document).ready(function(){
+    $('.materialboxed').materialbox();
+  });
+
+	//function par convertir un string a html element
+	function stringToHTML(htmlString) {
+	  var div = document.createElement('div');
+	  div.innerHTML = htmlString.trim();
+
+	  // Change this to div.childNodes to support multiple top-level nodes
+	  return div.firstChild;
+	}
+
+	//variable categoria para renderizar
+	var categoriaRender = "";
+	var val = true
+
+	//llenamos un diccionario con las categorias
+	var categorias = {};
+
+	//llenamos un diccionario con los productos
+	var productos = {};
+
+	//prodecemos a llenar lLenar los diccionarios declarados
+  {% for producto in productos %}
+		if(val){
+			categoriaRender = '{{ producto.categoria }}';
+			val = false
+		}
+		//Agregamos a las categorias
+    categorias['{{ producto.categoria }}'] = '{{ producto.categoria }}';
+
+    //Agregamos a los productos
+    var producto = {}
+		producto['codigo'] = '{{ producto.codigo }}'
+		producto['minicodigo'] = '{{ producto.minicodigo }}'
+		producto['codigofabricante'] = '{{ producto.codigofabricante }}'
+		producto['cadenacaracteristicas'] = '{{ producto.cadenacaracteristicas }}'
+    producto['nombre'] = '{{ producto.nombre }}'
+    producto['descripcion'] = '{{ producto.descripcion }}'
+    producto['categoria'] = '{{ producto.categoria }}'
+    producto['precio'] = '{{ producto.precio }}'
+    productos['{{ producto.categoria }}' +  '{{ producto.nombre }}'] = producto
+  {% endfor %}
+
+	//creamos un diccionario donde tendremos los productos que estan en el carrito
+	var productosEnCarrito = {}
+
+	function VolverCotizacion(ev){
+		var tienda = document.getElementById('tienda')
+		var cotizacion = document.getElementById('cotizacion')
+
+		tienda.classList.remove('hide')
+		cotizacion.classList.add('hide')
+
+		document.getElementById('tbodyResumenCompra').innerText = ""
+	}
+
+	function VerCotizacion(ev){
+		$('body, html').animate({
+			scrollTop: '0px'
+		}, 300);
+		$('.modal').modal('close');
+		if(Object.keys(productosEnCarrito).length === 0){
+			M.toast({html: 'El carrito esta vacio', classes: 'rounded'});
+
+		}else{
+
+			var tienda = document.getElementById('tienda')
+			var cotizacion = document.getElementById('cotizacion')
+
+			tienda.classList.add('hide')
+			cotizacion.classList.remove('hide')
+
+			var tbodyResumenCompra = document.getElementById('tbodyResumenCompra')
+			var item = 1
+			for (var namePro in productosEnCarrito){
+
+				var tr = document.createElement('tr')
+				var tdItem = document.createElement('td')
+				var tdNombre = document.createElement('td')
+				var tdCantidad = document.createElement('td')
+				var tdVrUnitario = document.createElement('td')
+				var tdVrTotal = document.createElement('td')
+
+				var pro = productosEnCarrito[namePro]
+				tdItem.innerText = item
+				tdNombre.innerText = pro['nombre']
+				tdCantidad.innerText = pro['cantidad']
+				tdVrUnitario.innerText = "S/. " + parseFloat(pro['precio']).toFixed(2)
+				tdVrTotal.innerText = "S/. " + parseFloat(parseFloat(pro['precio']) * parseFloat(pro['cantidad'])).toFixed(2)
+
+				tr.appendChild(tdItem)
+				tr.appendChild(tdNombre)
+				tr.appendChild(tdCantidad)
+				tr.appendChild(tdVrUnitario)
+				tr.appendChild(tdVrTotal)
+
+				tbodyResumenCompra.appendChild(tr)
+				item++
+			}
+			var tr = document.createElement('tr')
+			var tdItem = document.createElement('td')
+			var tdNombre = document.createElement('td')
+			var tdCantidad = document.createElement('td')
+			var tdVrUnitario = document.createElement('td')
+			var tdVrTotal = document.createElement('td')
+			tdVrUnitario.innerText = 'Total'
+			tdVrTotal.innerText = document.getElementById('totalCarrito').innerText
+
+			tr.appendChild(tdItem)
+			tr.appendChild(tdNombre)
+			tr.appendChild(tdCantidad)
+			tr.appendChild(tdVrUnitario)
+			tr.appendChild(tdVrTotal)
+
+			tbodyResumenCompra.appendChild(tr)
+
+		}
+	}
+
+	//funcionalidad para agregar un prducto al carrito
+	function ShopOnclick(ev){
+		var producto = productos[this.id.substring(8)]
+		var id = "itemCarrito0"+producto['categoria']+producto['nombre']
+		var id1 = "itemCarrito1"+producto['categoria']+producto['nombre']
+
+		if(!document.getElementById(id)){
+			var carrito = document.getElementById('carrito')
+			var carrito1 = document.getElementById('carrito1')
+
+			var li = document.createElement('li')
+			li.classList.add('collection-item', 'avatar')
+			li.id = id
+			var li1 = document.createElement('li')
+			li1.classList.add('collection-item', 'avatar')
+			li1.id = id1
+
+			var i1 = document.createElement('i')
+			i1.classList.add('material-icons', 'circle', 'red', 'darken-3')
+			i1.innerText = 'shopping_basket'
+			var i11 = document.createElement('i')
+			i11.classList.add('material-icons', 'circle', 'red', 'darken-3')
+			i11.innerText = 'shopping_basket'
+
+
+			var span1 = document.createElement('span')
+			span1.classList.add('title')
+			span1.innerText = producto['nombre']
+			var span11 = document.createElement('span')
+			span11.classList.add('title')
+			span11.innerText = producto['nombre']
+
+			var p1 = document.createElement('p')
+			var p11 = document.createElement('p')
+
+			var div1 = document.createElement('div')
+			div1.classList.add('row')
+			var div11 = document.createElement('div')
+			div11.classList.add('row')
+
+			var div2 = document.createElement('div')
+			div2.classList.add('input-field', 'col', 's6')
+			var div21 = document.createElement('div')
+			div21.classList.add('input-field', 'col', 's6')
+
+			var input = document.createElement('input')
+			input.value = "1"
+			input.id = "cantidad0"+producto['categoria']+producto['nombre']
+			input.type = "number"
+			input.min = "1"
+			input.addEventListener('change', aumentarCantidad)
+			var input1 = document.createElement('input')
+			input1.value = "1"
+			input1.id = "cantidad1"+producto['categoria']+producto['nombre']
+			input1.type = "number"
+			input1.min = "1"
+			input1.addEventListener('change', aumentarCantidad)
+
+			var label = document.createElement('label')
+			label.classList.add('active', 'black-text')
+			label.innerText = "Cantidad"
+			var label1 = document.createElement('label')
+			label1.classList.add('active', 'black-text')
+			label1.innerText = "Cantidad"
+
+			div2.appendChild(input)
+			div2.appendChild(label)
+			div21.appendChild(input1)
+			div21.appendChild(label1)
+
+			div1.appendChild(div2)
+			div11.appendChild(div21)
+
+			var i2 = document.createElement('i')
+			i2.id = "subTotal0"+producto['categoria']+producto['nombre']
+			i2.innerText = "S/. "+producto['precio']
+			var i21 = document.createElement('i')
+			i21.id = "subTotal1"+producto['categoria']+producto['nombre']
+			i21.innerText = "S/. "+producto['precio']
+
+			p1.appendChild(div1)
+			p1.append("SubTotal: ")
+			p1.appendChild(i2)
+			p11.appendChild(div11)
+			p11.append("SubTotal: ")
+			p11.appendChild(i21)
+
+			var a1 = document.createElement('a')
+			a1.classList.add('secondary-content')
+			a1.id = "closeItem0"+producto['categoria']+producto['nombre']
+			a1.style.cursor = 'pointer'
+			a1.addEventListener("click", delItemCarrito)
+			var a11 = document.createElement('a')
+			a11.classList.add('secondary-content')
+			a11.id = "closeItem1"+producto['categoria']+producto['nombre']
+			a11.style.cursor = 'pointer'
+			a11.addEventListener("click", delItemCarrito)
+
+			var i3 = document.createElement('i')
+			i3.classList.add('material-icons', 'red-text')
+			i3.innerText = "close"
+			var i31 = document.createElement('i')
+			i31.classList.add('material-icons', 'red-text')
+			i31.innerText = "close"
+
+			a1.appendChild(i3)
+			a11.appendChild(i31)
+
+			li.appendChild(i1)
+			li.appendChild(span1)
+			li.appendChild(p1)
+			li.appendChild(a1)
+			li1.appendChild(i11)
+			li1.appendChild(span11)
+			li1.appendChild(p11)
+			li1.appendChild(a11)
+
+
+			carrito.appendChild(li)
+			carrito1.appendChild(li1)
+
+			var productoDetalle = producto
+			productoDetalle['cantidad'] = 1
+			productosEnCarrito[producto['categoria']+producto['nombre']] = productoDetalle
+
+			var cantidad = producto['precio']
+			cantidad = parseFloat(cantidad)
+
+			M.toast({html: 'Articulo agregado', classes: 'rounded'});
+
+			actualizarTotal(cantidad, true)
+		}
+		volverTienda()
+	}
+
+	function volverTienda(ev){
+		$('#modal1').modal('close');
+	}
+
+	//funcionalidad para al momento de cambiar la cantidad de un producto
+	function aumentarCantidad(){
+		var id = this.id.substring(9)
+
+		if(!isNaN(parseInt(this.value))){
+			var nuevaCantidad = parseInt(this.value)
+			if (nuevaCantidad < 1){
+				nuevaCantidad = 1
+			}
+			var producto = productosEnCarrito[id]
+			var precio = parseFloat(producto['precio'])
+			var actualCantidad = parseInt(producto['cantidad'])
+			var input = document.getElementById("cantidad0" + id)
+			input.value = nuevaCantidad
+			var input1 = document.getElementById("cantidad1" + id)
+			input1.value = nuevaCantidad
+			var nPrecio = parseFloat(precio * nuevaCantidad)
+			var aPrecio = parseFloat(precio * actualCantidad)
+
+			var subTotalTag = document.getElementById("subTotal0" + id)
+			productosEnCarrito[id]['cantidad'] = nuevaCantidad
+			subTotalTag.innerText = "S/. " + (parseFloat(nPrecio).toFixed(2)).toString()
+
+			var subTotalTag1 = document.getElementById("subTotal1" + id)
+			subTotalTag1.innerText = "S/. " + (parseFloat(nPrecio).toFixed(2)).toString()
+
+			actualizarTotal(Math.abs(nPrecio - aPrecio), nPrecio > aPrecio)
+
+
+		}
+		else{
+			this.value = 1
+		}
+	}
+
+	//funcionalidad para actualizar el total de la compra
+	function actualizarTotal(cantidad, suma){
+			var totCarritoTag = document.getElementById('totalCarrito')
+			var totCarritoTag1 = document.getElementById('totalCarrito1')
+			var totActual = totCarritoTag.innerText.substring(3)
+			var totActual1 = totCarritoTag1.innerText.substring(3)
+			totActual = parseFloat(totActual)
+			totActual1 = parseFloat(totActual1)
+			if(suma){
+				var totFinal = parseFloat(totActual + cantidad).toFixed(2)
+				var totFinal1 = parseFloat(totActual1 + cantidad).toFixed(2)
+			}else{
+				var totFinal = parseFloat(totActual - cantidad).toFixed(2)
+				var totFinal1 = parseFloat(totActual1 - cantidad).toFixed(2)
+			}
+			totCarritoTag.innerText = "S/. "+totFinal.toString()
+			totCarritoTag1.innerText = "S/. "+totFinal1.toString()
+	}
+
+	//funcionalidad para eliminar un item del carrito de compras
+	function delItemCarrito(ev){
+		var id = this.id.substring(10)
+		document.getElementById('carrito').removeChild(document.getElementById("itemCarrito0"+id))
+		document.getElementById('carrito1').removeChild(document.getElementById("itemCarrito1"+id))
+
+		var producto = productosEnCarrito[id]
+		var cantidad = parseFloat(producto['precio'])
+		cantidad *= producto['cantidad']
+
+		actualizarTotal(cantidad, false)
+		delete productosEnCarrito[id]
+	}
+
+	//funcionalidad para agregar todos los productos en cards
+  function appendCards(){
+		var containerProductos = document.getElementById('contProductos')
+  	for (var pro in productos){
+
+  		var producto = productos[pro];
+  		var div1 = document.createElement('div')
+			div1.classList.add('col','s12','m6','l4')
+			div1.id = producto['categoria'] + producto['nombre']
+
+			var div2 = document.createElement('div')
+			div2.classList.add('card','hoverable')
+
+			var div3 = document.createElement('div')
+			div3.classList.add('card-image', 'waves-effect', 'waves-block', 'waves-light')
+			//div3.style.height = '300px'
+
+			var img1 = document.createElement('img')
+			img1.classList.add('materialboxed')
+      img1.height = '220'
+			img1.src = "{% static 'images/noimage.jpg' %}"
+
+
+			div3.appendChild(img1)
+
+			var div4 = document.createElement('div')
+			div4.classList.add('card-content')
+
+			var span1 = document.createElement('span')
+			span1.classList.add('card-title', 'grey-text', 'text-darken-4')
+			span1.innerText = producto['nombre']
+
+			var p1 = document.createElement('p')
+			p1.classList.add('truncate')
+			p1.innerText = producto['descripcion']
+
+			var p2 = document.createElement('p')
+
+			var a1 = document.createElement('a')
+
+			a1.classList.add('activator')
+			a1.innerText = 'leer mas'
+			a1.style.cursor = 'pointer'
+
+			p2.appendChild(a1)
+
+			var h51 = document.createElement('h5')
+			h51.innerText = "S/. "+(parseFloat(producto['precio']).toFixed(2)).toString()
+
+			var h52 = document.createElement('h5')
+			h52.classList.add('right-align')
+
+			var a2 = document.createElement('a')
+			a2.classList.add('waves-effect', 'waves-light', 'btn', 'red', 'darken-3')
+			a2.id = "btnShop1" + producto['categoria'] + producto['nombre']
+			a2.addEventListener('click', ShopOnclick)
+			a2.innerHTML = "Agregar "
+
+			var i1 = document.createElement('i')
+			i1.classList.add('material-icons')
+			i1.innerText = 'shopping_cart'
+
+			a2.appendChild(i1)
+
+			h52.appendChild(a2)
+
+			div4.appendChild(span1)
+			div4.appendChild(p1)
+			div4.appendChild(p2)
+			div4.appendChild(h51)
+			div4.appendChild(h52)
+
+			var div5 = document.createElement('div')
+			div5.classList.add('card-reveal')
+
+			var span2 = document.createElement('span')
+			span2.id = "closeCard" + producto['categoria'] + producto['nombre']
+			span2.classList.add('card-title', 'grey-text', 'text-darken-4')
+
+			var i2 = document.createElement('i')
+			i2.classList.add('material-icons', 'right')
+			i2.innerText = 'close'
+
+			span2.append(producto['nombre'])
+			span2.appendChild(i2)
+
+			var p3 = document.createElement('p')
+			p3.innerText = producto['descripcion']
+
+			var a3 = document.createElement('a')
+			a3.classList.add('waves-effect', 'waves-light', 'btn', 'red', 'darken-3')
+			a3.id = "btnProducto" + producto['categoria'] + producto['nombre']
+			if(producto['categoria'] == 'Software'){
+				a3.innerText = "Ver Pagina"
+				a3.href = 'http://www.paytoperu.com/'
+				a3.target = '_blank'
+				a3.addEventListener('click', function (){
+					var id = this.id.substring(11)
+					var closeCard = document.getElementById("closeCard" + id)
+					closeCard.click()
+				})
+			}else{
+				a3.innerText = "Ver todo"
+
+				a3.addEventListener('click', verTodoProducto)
+			}
+
+			div5.appendChild(span2)
+			div5.appendChild(p3)
+			div5.appendChild(a3)
+
+			div2.appendChild(div3)
+			div2.appendChild(div4)
+			div2.appendChild(div5)
+
+			div1.appendChild(div2)
+
+			containerProductos.appendChild(div1)
+  	}
+  }
+
+	function verTodoProducto(ev){
+		var id = this.id.substring(11)
+		var closeCard = document.getElementById("closeCard" + id)
+		closeCard.click()
+
+		$('#modal1').modal('open');
+
+		var producto = productos[id]
+
+		document.getElementById('nombreProducto').innerText = producto['nombre']
+
+		var tableContainer = document.getElementById('tableContainer')
+		tableContainer.innerText = ""
+		tableContainer.appendChild(toTable(producto['cadenacaracteristicas']))
+
+		document.getElementById('codigoProducto').innerText = producto['codigo']
+		document.getElementById('miniCodigoProducto').innerText = producto['minicodigo']
+		document.getElementById('codigoFabricanteProducto').innerText = producto['codigofabricante']
+
+
+		var divBtnAgregar3 = document.getElementById('divBtnAgregar3')
+
+		var h51 = document.createElement('h5')
+		h51.classList.add('right-align')
+
+		var a1 = document.createElement('a')
+		a1.classList.add('waves-effect', 'waves-light', 'btn', 'red', 'darken-3')
+		a1.id = "btnShop2"+id
+		a1.addEventListener('click', ShopOnclick)
+
+		var i1 = document.createElement('i')
+		i1.classList.add('material-icons', 'white-text')
+		i1.innerText ="shopping_cart"
+
+		a1.appendChild(i1)
+		a1.append(' Agregar')
+
+		h51.appendChild(a1)
+
+		var h52 = document.createElement('h5')
+		h52.classList.add('right-align')
+
+		var a2 = document.createElement('a')
+		a2.classList.add('waves-effect', 'waves-light', 'btn', 'red', 'darken-3')
+		a2.id = "btnShop3"+id
+		a2.addEventListener('click', ShopOnclick)
+
+		var i2 = document.createElement('i')
+		i2.classList.add('material-icons', 'white-text')
+		i2.innerText ="shopping_cart"
+
+		a2.appendChild(i2)
+		a2.append(' Agregar')
+
+		h52.appendChild(a2)
+
+
+		divBtnAgregar3.innerText = ""
+
+
+		divBtnAgregar3.appendChild(h52)
+
+
+	}
+
+  //agregamos los botones y los titulos a nuestro html
+  function appendButtonsTitles(){
+	  for (var categoria in categorias){
+	  	var titulos = document.getElementById('titulos');
+	  	var tituloCategoria = document.createElement('h3');
+	  	tituloCategoria.classList.add('black-text', 'center-align')
+	  	tituloCategoria.id = categoria;
+	  	tituloCategoria.innerText = categoria;
+	  	titulos.appendChild(tituloCategoria)
+
+		 	var divCategorias = document.getElementById('categorias');
+	  	var btnCategoria = document.createElement('button');
+	  	btnCategoria.classList.add('waves-effect' ,'waves-light' ,'btn','red','darken-3','white-text');
+	  	btnCategoria.innerText = categoria;
+	  	btnCategoria.id = 'categoria'+ categoria;
+	  	btnCategoria.addEventListener('click', hideNotWanted(categoria))
+	  	divCategorias.appendChild(btnCategoria);
+	  	divCategorias.append(' ')
+	  }
+ 	}
+
+  //funcion para ocultar las cards,titulos, botones q no se requieran
+	function hideNotWanted(categoria){
+  	return function (ev){
+  		var divCategorias = document.getElementById('categorias');
+  		for (var i = 0; i < divCategorias.children.length ; i++){
+	  		var buttonCat = divCategorias.children[i];
+	  		if(buttonCat.id == this.id){
+	  			buttonCat.classList.replace('red', 'red-text')
+	  			buttonCat.classList.replace('darken-3', 'text-darken-3')
+	  			buttonCat.classList.replace('white-text', 'white')
+	  		}else{
+  				buttonCat.classList.replace('red-text','red')
+	  			buttonCat.classList.replace('text-darken-3','darken-3')
+	  			buttonCat.classList.replace('white','white-text')
+	  		}
+	  	}
+
+  		var titulos = document.getElementById('titulos')
+  		for (var i = 0; i < titulos.children.length ; i++){
+	  		var titulo = titulos.children[i];
+	  		if(titulo.id.startsWith(categoria)){
+	  			titulo.classList.remove('hide')
+	  		}else{
+	  			titulo.classList.add('hide')
+	  		}
+	  	}
+
+	  	var container = document.getElementById('contProductos')
+  		for (var i = 0; i < container.children.length ; i++){
+	  		var card = container.children[i];
+	  		if(card.id.startsWith(categoria)){
+	  			card.classList.remove('hide')
+	  		}else{
+	  			card.classList.add('hide')
+	  		}
+	  	}
+  	}
+  }
+
+	//var cadena = "{CHIPSET:{INTEL G31};TIPO DE SOCKET:{LGA775};PROCESADORES:{PROCESADORES QUE SOPORTA:{Procesador Core 2 Dou S775 E4XXX;Procesador Core 2 Dou S775 E8XXX}};SOPORTA:{TECONOLOGIA INTEL EXTENDED MEMORY 64;TECONOLOGIA SPEEDSTEP;EXECUTE DISABLE;TECONOLOGIA VIRTUALIZACION};MEMORIAS:{MEMORIAS QUE SOPORTA:{Memoria RAM DDR2 667Mhz PC2-53000};MEMORIA DDR2 800MHz;NUMERO DE RANURAS DDR2::{2};CAPACIDAD MAXIMA HASTA::{4 GB};SOPORTA DUAL CHANNEL};VIDEO:{SI;Intel Graphics Media Accelerator 3100;MEMORIA DINAMICA HASTA (MB) 384}}"
+
+	//separador de cadena por ';'
+  function separador1(cadena){
+    var last = 0
+    var cont = 0
+    var indice = 0
+    var res = []
+    for (var i = 0 ; i < cadena.length ; i++){
+      if(cadena[i] == '{'){
+        cont++;
+      }
+      if(cadena[i] == '}'){
+        cont--;
+      }
+      if(cadena[i] == ';'){
+        if(cont == 0){
+          res[indice++] = cadena.substring(last, i)
+          last = i + 1
+        }
+      }
+    }
+    if(last != cadena.length){
+      res[indice] = cadena.substring(last, cadena.length)
+    }
+    return res
+  }
+
+	//separador de cadena por ':'
+  function separador2(cadena){
+    var i = 0;
+    while(i < cadena.length-1 && !(cadena[i] == ':' && cadena[i+1] == '{')){
+      i++;
+    }
+    var res = []
+    if(i == cadena.length-1){
+      res[0] = cadena
+
+    }else{
+      res[0] = cadena.substring(0,i)
+      res[1] = cadena.substring(i+1, cadena.length)
+
+    }
+    return res
+  }
+
+	//funcionalidad que retorna una tabla a partir de la cadena de descripcion
+  function toTable(cadena){
+    var cadena = cadena.substring(1,cadena.length - 1)
+    var rows = separador1(cadena)
+    var table = document.createElement('table')
+
+    var tbody = document.createElement('tbody')
+    for (var i = 0; i < rows.length ; i++){
+      var trow = document.createElement('tr')
+      var tcol1 = document.createElement('td')
+      var tcol2 = document.createElement('td')
+
+      var sep = separador2(rows[i])
+
+      //var sep = row.split(':')
+      tcol1.innerText = sep[0]
+
+      trow.appendChild(tcol1)
+      if(sep.length == 2){
+        tcol2.appendChild(toTable(sep[1]))
+        trow.appendChild(tcol2)
+      }
+      tbody.appendChild(trow)
+    }
+    table.appendChild(tbody)
+    table.classList.add('bordered')
+    return table
+  }
+
+	//funcion para vaciar todos los elementos del Carrito
+	function vaciarCarrito(ev){
+		document.getElementById('carrito').innerText = ""
+		document.getElementById('totalCarrito').innerText = "S/. 0.00"
+		productosEnCarrito = {}
+	}
+
+	function comprar(ev){
+		var nitems = Object.keys(productosEnCarrito).length
+
+		var inputTabla = document.getElementById('id_tabladetalle')
+		var tablaResumen = document.getElementById('tablaResumen')
+		inputTabla.value = document.getHTML(tablaResumen,true)
+		var inputImporte = document.getElementById('id_importe')
+		var totalCarrito = document.getElementById('totalCarrito')
+		inputImporte.value = parseFloat(totalCarrito.innerHTML.substring(4))
+		var inputCliente = document.getElementById('id_cliente')
+		var idCliente = document.getElementById('id_user')
+		inputCliente.value = idCliente.value
+		var inputnItems = document.getElementById('id_nitems')
+		inputnItems.value = nitems
+
+		var btnSend = document.getElementById('btnSubmitForm')
+		btnSend.click()
+	}
+
+	document.getHTML = function(who, deep){
+    if(!who || !who.tagName) return '';
+    var txt, ax, el= document.createElement("div");
+    el.appendChild(who.cloneNode(false));
+    txt= el.innerHTML;
+    if(deep){
+        ax= txt.indexOf('>')+1;
+        txt= txt.substring(0, ax)+who.innerHTML+ txt.substring(ax);
+    }
+    el= null;
+    return txt;
+}
+
+
+  //funcion asicrona para hacer ciertas acciones
+  setTimeout(function(){
+		var btnComprar = document.getElementById('btnComprar')
+		if(btnComprar != null)
+			btnComprar.addEventListener('click', comprar)
+
+		var btnVerCotizacion = document.getElementById('btnVerCotizacion')
+		btnVerCotizacion.addEventListener('click', VerCotizacion)
+		var btnVerCotizacion1 = document.getElementById('btnVerCotizacion1')
+		btnVerCotizacion1.addEventListener('click', VerCotizacion)
+		var btnVolverTiendaCotizacion = document.getElementById('btnVolverTiendaCotizacion')
+		btnVolverTiendaCotizacion.addEventListener('click', VolverCotizacion)
+		var btnVolverTienda = document.getElementById('btnVolverTienda2')
+		btnVolverTienda2.addEventListener('click', volverTienda)
+		var btnVaciarCarrito = document.getElementById('btnVaciarCarrito')
+		btnVaciarCarrito.addEventListener('click', vaciarCarrito)
+		//agregamos todos los productos en cards
+		appendCards()
+  	//llamamos a la funcion para se agreguen los botones y los titulos
+  	appendButtonsTitles()
+  	//hacemos click en el boton de categoria Software
+  	document.getElementById("categoria"+categoriaRender).click()
+	},0)
+
+</script>
+{% endblock %}

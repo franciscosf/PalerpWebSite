@@ -1,0 +1,70 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% block title%}Iniciar Sesion{% endblock %}
+{% block content %}
+<br>
+<div class="container" style="min-height:800px">
+  <div class="row">
+    <div class="col l6 hide-on-med-and-down">
+
+    </div>
+    <div class="col s12 m12 l6">
+          <div class="card hoverable white" >
+            <div class="card-content black-text">
+              <h5 class="card-title center-align" style="font-size:40px"><strong>Inicia Sesion</strong></h5>
+              <h5 class="center-align"><img src="{% static 'images/login.png' %}" alt=""></h5>
+              <br>
+              <hr>
+              <p class="center-align">Ingresa tu nombre de usuario y tu contraseña.</p>
+              <hr>
+              <br>
+              <div class="row">
+
+                <form class="col s12" method="post">
+                  {% csrf_token %}
+                  <div class="row">
+
+                    <div class="input-field col s12">
+
+                      <i class="material-icons prefix">account_box</i>
+                      {{ form.username }}
+                      <label for="{{ form.username.id_for_label }}">Username</label>
+                      {% for error in form.username.errors %}
+                        <span class="helper-text" style="color: red">
+
+                          {%  if error == 'This field is required.' %}Este campo es requerido.
+                          {%  elif error == 'A user with that username already exists.' %}Este nombre de usuario ya existe.
+                          {% else %}Username invalido.{% endif %}
+                        </span>
+                      {% endfor %}
+                    </div>
+                    <div class="input-field col s12 m12 l12">
+
+                      <i class="material-icons prefix">lock</i>
+                      {{ form.password }}
+                      <label for="{{ form.password.id_for_label }}">Contraseña</label>
+                      {% for error in form.password.errors %}
+                        <span class="helper-text"  style="color: red">
+                          {%  if error == 'This field is required.' %}Este campo es requerido.
+                          {% else %}Contraseña invalida.{% endif %}
+                        </span>
+                      {% endfor %}
+                    </div>
+                  </div>
+                  <div class="container">
+                    <p class="center-align">Aun no tienes una cuenta?<a href="{% url 'signup' %}"> Registrate</a></p>
+                  </div>
+                  <br>
+                  <button class="btn waves-effect right waves-light light-blue darken-2" type="submit" name="action">Entrar
+                    <i class="material-icons right">send</i>
+                  </button>
+                </form>
+
+              </div>
+            </div>
+          </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

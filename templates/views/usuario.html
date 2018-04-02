@@ -1,0 +1,30 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% block content %}
+<div class="container" style="min-height:800px">
+  <div class="row">
+    <div class="col s12 m12 l12 ">
+        <h2 class="center-align">Bienvenido {{ user.first_name }} {{ user.last_name }}!</h2>
+
+    </div>
+    <div class="col s12 m12 l12 hide-on-small-only">
+      <h5 class="center-align"><img src="{% static 'images/login.png' %}" alt="" height="300" width="300"></h5>
+    </div>
+    <div class="col s12 m12 l12">
+      <hr>
+      <h5 class="center-align">Ahora como usuario tienes mas privilegios en nuestra pagina web.</h5>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s12 m6">
+      <h5 class="center-align"><a href="{% url 'index' %}" class="waves-effect waves-light btn-large white-text green">Ir al inicio</a></h5>
+    </div>
+    <div class="col s12 m6">
+      <h5 class="center-align"><a href="{% url 'tienda' %}" class="waves-effect waves-light btn-large white-text green">Ir a la tienda</a></h5>
+    </div>
+    <div class="col s12 m12 l12">
+      <h5 class="center-align"><a href="{% url 'logout' %}" class="waves-effect waves-light btn-large white-text red">Cerrar sesion</a></h5>
+    </div>
+  </div>
+</div>
+{% endblock %}

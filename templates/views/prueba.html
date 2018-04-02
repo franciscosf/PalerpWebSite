@@ -1,0 +1,110 @@
+{% extends 'base/base.html' %}
+
+{% load staticfiles %}
+
+{% block content %}
+<br>
+<div class="container hide" id = "tableContainer">
+
+</div>
+<div class="container" id="c">
+
+</div>
+<br>
+{% endblock %}
+{% block extrajs %}
+  <script type="text/javascript">
+  var cadena = "{CHIPSET:{INTEL G31};TIPO DE SOCKET:{LGA775};PROCESADORES:{PROCESADORES QUE SOPORTA:{Procesador Core 2 Dou S775 E4XXX;Procesador Core 2 Dou S775 E8XXX}};SOPORTA:{TECONOLOGIA INTEL EXTENDED MEMORY 64;TECONOLOGIA SPEEDSTEP;EXECUTE DISABLE;TECONOLOGIA VIRTUALIZACION}}"
+
+  function separador1(cadena){
+    var last = 0
+    var cont = 0
+    var indice = 0
+    var res = []
+    for (var i = 0 ; i < cadena.length ; i++){
+      if(cadena[i] == '{'){
+        cont++;
+      }
+      if(cadena[i] == '}'){
+        cont--;
+      }
+      if(cadena[i] == ';'){
+        if(cont == 0){
+          res[indice++] = cadena.substring(last, i)
+          last = i + 1
+        }
+      }
+    }
+    if(last != cadena.length){
+      res[indice] = cadena.substring(last, cadena.length)
+    }
+    return res
+  }
+
+  function separador2(cadena){
+    var i = 0;
+    while(i < cadena.length && cadena[i] != ':'){
+      i++;
+    }
+    var res = []
+    if(i == cadena.length){
+      res[0] = cadena
+
+    }else{
+      res[0] = cadena.substring(0,i)
+      res[1] = cadena.substring(i+1, cadena.length)
+
+    }
+    return res
+  }
+
+  function toTable(cadena){
+    var cadena = cadena.substring(1,cadena.length - 1)
+    var rows = separador1(cadena)
+    console.log(rows)
+    var table = document.createElement('table')
+
+    var tbody = document.createElement('tbody')
+    for (var i = 0; i < rows.length ; i++){
+      var trow = document.createElement('tr')
+      var tcol1 = document.createElement('td')
+      var tcol2 = document.createElement('td')
+
+      var sep = separador2(rows[i])
+
+      //var sep = row.split(':')
+      tcol1.innerText = sep[0]
+
+      trow.appendChild(tcol1)
+      if(sep.length == 2){
+        tcol2.appendChild(toTable(sep[1]))
+        trow.appendChild(tcol2)
+      }
+      tbody.appendChild(trow)
+    }
+    table.appendChild(tbody)
+    table.classList.add('bordered')
+    return table
+  }
+  var a = toTable(cadena)
+  console.log(a)
+  document.getElementById('tableContainer').appendChild(a)
+
+var le = 'Holas'
+  var c = document.getElementById('c')
+  var str =   `<div class='row'>
+                  <h1>`+ le+
+                  `</h1>
+              </div>`
+  var html = $.parseHTML(str)
+  function createElementFromHTML(htmlString) {
+  var div = document.createElement('div');
+  div.innerHTML = htmlString.trim();
+
+  // Change this to div.childNodes to support multiple top-level nodes
+  return div.firstChild;
+}
+console.log(createElementFromHTML(str))
+
+  </script>
+{% endblock %}

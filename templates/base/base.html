@@ -1,0 +1,124 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block extraMeta %}
+    {% endblock %}
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="{% static 'css/materialize.css' %}"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="{% static 'css/style.css' %}"  media="screen,projection"/>
+    <link rel="apple-touch-icon" sizes="57x57" href="{% static 'images/favicon/apple-icon-57x57.png' %}">
+    <link rel="apple-touch-icon" sizes="60x60" href="{% static 'images/favicon/apple-icon-60x60.png' %}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{% static 'images/favicon/apple-icon-72x72.png' %}">
+    <link rel="apple-touch-icon" sizes="76x76" href="{% static 'images/favicon/apple-icon-76x76.png' %}">
+    <link rel="apple-touch-icon" sizes="114x114" href="{% static 'images/favicon/apple-icon-114x114.png' %}">
+    <link rel="apple-touch-icon" sizes="120x120" href="{% static 'images/favicon/apple-icon-120x120.png' %}">
+    <link rel="apple-touch-icon" sizes="144x144" href="{% static 'images/favicon/apple-icon-144x144.png' %}">
+    <link rel="apple-touch-icon" sizes="152x152" href="{% static 'images/favicon/apple-icon-152x152.png' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/favicon/apple-icon-180x180.png' %}">
+    <link rel="icon" type="image/png" sizes="192x192"  href="{% static 'images/favicon/android-icon-192x192.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicon/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="96x96" href="{% static 'images/favicon/favicon-96x96.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/favicon/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'images/favicon/manifest.json' %}">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="{% static 'images/favicon/ms-icon-144x144.png' %}">
+    <meta name="theme-color" content="#ffffff">
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>{% block title %}Doc{% endblock %}</title>
+</head>
+<body style="zoom:90%">
+
+    {% block nav %}
+    <div class="navbar-fixed" style="z-index: 9999">
+      <nav >
+        <div class="nav-wrapper red darken-3">
+            <div class="container">
+
+                <a href="#!" class="brand-logo white-text"><i class="material-icons" style="font-size:30px">library_books</i> Palerp</a>
+                <a href="#" data-target="mobile-demo" class="sidenav-trigger white-text"><i class="material-icons">menu</i></a>
+                <ul class="right hide-on-med-and-down">
+                    {% if user.is_authenticated %}
+                      <li><a class="white-text active" href="{% url 'usuario' %}"><strong>{{ user.get_username|upper }}</strong></a></li>
+                    {% endif %}
+                    <li><a class="white-text" href="{% url 'index' %}">Inicio</a></li>
+                    <li><a class="white-text" href="{% url 'nosotros' %}">Nosotros</a></li>
+                    <li><a class="white-text" href="{% url 'productos' %}">Productos</a></li>
+                    <li><a class="white-text" href="{% url 'tienda' %}">Tienda</a></li>
+                    <li><a class="white-text" href="{% url 'contactanos' %}">Contacto</a></li>
+                    {% if user.is_authenticated %}
+                      <li><a class="white-text" href="{% url 'logout' %}">Cerrar sesion</a></li>
+                    {% else %}
+                      <li><a class="white-text" href="{% url 'login' %}">Iniciar Sesion</a></li>
+                    {% endif %}
+                </ul>
+                <ul class="sidenav" id="mobile-demo" >
+                    {% if user.is_authenticated %}
+                      <li><a class="grey-text text-darken-3" href="{% url 'usuario' %}"><strong>{{ user.get_username|upper }}</strong></a></a></li>
+                    {% endif %}
+                    <li><a class="grey-text text-darken-3" href="{% url 'index' %}">Inicio</a></li>
+                    <li><a class="grey-text text-darken-3" href="{% url 'nosotros' %}">Nosotros</a></li>
+                    <li><a class="grey-text text-darken-3" href="{% url 'productos' %}">Productos</a></li>
+                    <li><a class="grey-text text-darken-3" href="{% url 'tienda' %}">Tienda</a></li>
+                    <li><a class="grey-text text-darken-3" href="{% url 'contactanos' %}">Contacto</a></li>
+
+                    {% if user.is_authenticated %}
+                      <li><a class="grey-text text-darken-3" href="{% url 'logout' %}">Cerrar sesion</a></li>
+                    {% else %}
+                      <li><a class="grey-text text-darken-3" href="{% url 'login' %}">Iniciar Sesion</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+      </nav>
+    </div>
+    {% endblock %}
+
+    {% block content %}
+    {% endblock %}
+
+    {% block footer %}
+    <footer class="page-footer red darken-3">
+        <div class="container">
+            <div class="row">
+            <div class="col l6 s12">
+                <h4 class="white-text">Informacion de Palerp</h4>
+                <p class="white-text">Calle SacsayHuaman F - 12 Urb. Manuel Prado - Cusco</p>
+                <p class="white-text">tsolorzano@palerp.com</p>
+                <p class="white-text">www.palerp.com</p>
+            </div>
+            <div class="col l4 offset-l2 s12">
+                <h5 class="white-text">Telefonos</h5>
+                <ul>
+                <li><a class="white-text" href="#!">(084) 28-76-41</a></li>
+                <li><a class="white-text" href="#!">(051) 985-855-998</a></li>
+                </ul>
+            </div>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            <div class="container">
+            © 2018 Copyright
+            </div>
+        </div>
+    </footer>
+    {% endblock %}
+
+    <!--Import jQuery before materialize.js-->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/materialize.min.js' %}"></script>
+
+    <script>
+    $(document).ready(function(){
+      $('.sidenav').sidenav();
+    });
+    </script>
+
+    {% block extrajs %}
+    {% endblock %}
+</body>
+</html>

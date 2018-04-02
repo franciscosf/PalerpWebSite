@@ -1,0 +1,41 @@
+{% extends 'base/base.html' %}
+
+{% block extraMeta %}
+{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<div class="hide">
+	<form id='formCompra' class="" action="http://desarrollo.paytoperu.com/esp/payments" method="post" novalidate>
+		<input type="number" name="importe" id="importe" decimals="2" decimal-point="." value="{{ compra.importe }}" required />
+		<input type="hidden" name="keymerchant" id="keymerchant" value="{{ RUCPalerp }}"  required/>
+		<input type="text" name="codigo_transaccion" id="codigo_transaccion" value="{{ compra.codigo }}" required/>
+		<input type="number" name="items" id="items" value="{{ compra.nitems }}" required/>
+		<input type="hidden" name="moneda" id="moneda" value="1" required/>
+		<input type="email" name="email" id="email" value="{{ user.email }}" required/>
+		<input type="text" name="nombres" id="nombres" value="{{ user.first_name }}" required/>
+		<input type="text" name="apellidos" id="apellidos" value="{{ user.last_name }}" required/>
+		<input type="text" name="descripcion" id="descripcion" value="{{ compra.tabladetalle }}" required/>
+		<input type="submit" name="enviar" id="enviarCompra" value="enviar">
+	</form>
+</div>
+
+<div class="container" style="min-height:800px">
+  <br>
+  <br><br><br>
+  <div class="progress">
+      <div class="indeterminate"></div>
+  </div>
+  <h3 class="center-align">Validando datos</h3>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block extrajs %}
+<script type="text/javascript">
+  setTimeout(function (){
+    var btnSend = document.getElementById('enviarCompra')
+		btnSend.click()
+  },1500)
+</script>
+{% endblock %}

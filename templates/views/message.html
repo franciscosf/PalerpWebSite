@@ -1,0 +1,23 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% block content %}
+<div class="container" style="min-height:800px">
+  <div class="row">
+    <div class="col s12 m12 l12 ">
+      <h5 class="center-align"><img src="{% with 'images/'|add:url_image as image_static %}
+  {% static image_static %}
+{% endwith %}" alt="" height="300" width="300"></h5>
+    </div>
+    <div class="col s12 m12 l12">
+      <h2 class="center-align {{ color_tittle }}">{{ tittle_message }}</h2>
+      <hr>
+      <h5 class="center-align">{{ message }}</h5>
+    </div>
+  </div>
+  <div class="row">
+    <h5 class="center-align"><a href="{% with ''|add:url_btn as url_static %}
+{% url url_static %}
+{% endwith %}" class="waves-effect waves-light btn-large white-text green">{{ btn_message }}</a></h5>
+  </div>
+</div>
+{% endblock %}
