@@ -1,0 +1,17 @@
+.btnLlamanos {
+  z-index: 120000;
+	 /* hacemos que la cabecera ocupe el ancho completo de la página */
+	right: 0; /* Posicionamos la cabecera al lado izquierdo */
+	top: 0;
+  margin-right: 20px;
+  margin-top: 15px;/* Posicionamos la cabecera pegada arriba */
+	position: fixed; /* Hacemos que la cabecera tenga una posición fija */
+}
+.btnLlamanosSmall {
+  z-index: 120000; /* hacemos que la cabecera ocupe el ancho completo de la página */
+	right: 0; /* Posicionamos la cabecera al lado izquierdo */
+	top: 0;
+  margin-right: 20px;
+  margin-top: 10px;/* Posicionamos la cabecera pegada arriba */
+	position: fixed; /
+}

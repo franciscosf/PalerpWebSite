@@ -42,3 +42,11 @@ def tienda_view(request):
 
 def prueba(request):
 	return render(request, 'views/prueba.html')
+
+'''def payToPeruPost_view(request):
+	if request.methos == 'POST':
+		re_POST = request.POST
+		codigo_transaccion = re_POST['codigo_transaccion']
+		forma_pago = re_POST['forma_pago']
+		medio_pago = re_POST['medio_pago']
+		'''

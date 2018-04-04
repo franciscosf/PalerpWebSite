@@ -18,6 +18,10 @@
               <p class="center-align">Ingresa tu nombre de usuario y tu contraseña.</p>
               <hr>
               <br>
+              <div class="container">
+                <h6 class="center-align"><a href="{% url 'social:begin' 'facebook' %}" class="waves-effect waves-light btn" style="background: #3b5998">Iniciar sesion con Facebook <i class="fab fa-facebook-square" style="font-size:20px"></i></a></h6>
+              </div>
+              <br>
               <div class="row">
 
                 <form class="col s12" method="post">
@@ -67,4 +71,9 @@
     </div>
   </div>
 </div>
+{% endblock %}
+
+{% block extrajs %}
+<script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
 {% endblock %}

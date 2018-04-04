@@ -50,6 +50,7 @@
                     <li><a class="white-text" href="{% url 'productos' %}">Productos</a></li>
                     <li><a class="white-text" href="{% url 'tienda' %}">Tienda</a></li>
                     <li><a class="white-text" href="{% url 'contactanos' %}">Contacto</a></li>
+                    <li><a class="white-text" href="{% url 'clientes' %}">Clientes</a></li>
                     {% if user.is_authenticated %}
                       <li><a class="white-text" href="{% url 'logout' %}">Cerrar sesion</a></li>
                     {% else %}
@@ -64,6 +65,7 @@
                     <li><a class="grey-text text-darken-3" href="{% url 'nosotros' %}">Nosotros</a></li>
                     <li><a class="grey-text text-darken-3" href="{% url 'productos' %}">Productos</a></li>
                     <li><a class="grey-text text-darken-3" href="{% url 'tienda' %}">Tienda</a></li>
+                    <li><a class="grey-text text-darken-3" href="{% url 'clientes' %}">Clientes</a></li>
                     <li><a class="grey-text text-darken-3" href="{% url 'contactanos' %}">Contacto</a></li>
 
                     {% if user.is_authenticated %}
@@ -76,6 +78,14 @@
         </div>
       </nav>
     </div>
+    <div class="btnLlamanos hide-on-small-only" style="display: inline-block;">
+      <a class=" right waves-effect waves-light btn red-text text-darken-3 white"><strong><i class="material-icons left">phone</i> Te llamamos</strong></a>
+
+    </div>
+    <div class="btnLlamanosSmall hide-on-med-and-up" style="display: inline-block;">
+      <a class=" right waves-effect waves-light btn red-text text-darken-3 white"><strong><i class="material-icons">phone</i></strong></a>
+
+    </div>
     {% endblock %}
 
     {% block content %}
@@ -86,16 +96,14 @@
         <div class="container">
             <div class="row">
             <div class="col l6 s12">
-                <h4 class="white-text">Informacion de Palerp</h4>
-                <p class="white-text">Calle SacsayHuaman F - 12 Urb. Manuel Prado - Cusco</p>
-                <p class="white-text">tsolorzano@palerp.com</p>
-                <p class="white-text">www.palerp.com</p>
+                <h4 class="white-text"><a class="white-text" href="{% url 'contactanos' %}">Informacion de Palerp</a></h4>
+                <p><a href="{% url 'contactanos' %}" class="white-text"><i class="material-icons left" >location_on</i>Calle SacsayHuaman F - 12 Urb. Manuel Prado - Cusco</a></p>
+                <p><a class="white-text" href="{% url 'contactanos' %}"><i class="material-icons left" >email</i>info@palerp.com</a></p>
             </div>
             <div class="col l4 offset-l2 s12">
-                <h5 class="white-text">Telefonos</h5>
+                <h4 class="white-text"><a class="white-text" href="{% url 'contactanos' %}">Telefonos</a></h4>
                 <ul>
-                <li><a class="white-text" href="#!">(084) 28-76-41</a></li>
-                <li><a class="white-text" href="#!">(051) 985-855-998</a></li>
+                <li><a class="white-text" href="#!"><i class="material-icons left">local_phone</i>(084) 28-76-41</a></li>
                 </ul>
             </div>
             </div>

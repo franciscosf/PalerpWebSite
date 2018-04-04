@@ -73,3 +73,6 @@ def contactanos_view(request):
     form = PosibleClienteForm()
 
     return render(request, 'views/contactanos.html', {'form':form})
+
+def clientes_view(request):
+    return render(request, 'views/clientes.html')
