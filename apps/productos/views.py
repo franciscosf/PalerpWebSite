@@ -1,11 +1,37 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.http import JsonResponse
 from django.contrib.auth.models import User
-
+from django.views.decorators.csrf import csrf_exempt
 from apps.productos.models import Producto
 from apps.productos.models import Compra
 from apps.productos.forms import CompraForm
 # Create your views here.
+
+import json
+
+@csrf_exempt
+def confirmarpago(request):
+	if request.method == 'POST':
+		data = json.loads(request.body.decode('utf-8'))
+		# codigo_transaccion = data['codigo_transaccion']
+		# forma_pago = data['forma_pago']
+		# medio_pago = data['medio_pago']
+		# importe_autorizado = data['importe_autorizado']
+		# numero_pedido = data['numero_pedido']
+		# codigo_autorizacion = data['codigo_autorizacion']
+		# numero_tarjeta = data['numero_tarjeta']
+		# nombre_tarjeta_habiente = data['nombre_tarjeta_habiente']
+		# email = data['email']
+		# fecha = data['fecha']
+		#do what you have to do
+
+		resJSON = {
+			'codigo_transaccion': 'C000P00021',
+			'estado': 'correcto',
+			'mensaje': 'unMensaje'
+		}
+		return JsonResponse(resJSON)
 
 def formatIntegerWithZeros(n, zeros):
 	lenN = len(str(n))
