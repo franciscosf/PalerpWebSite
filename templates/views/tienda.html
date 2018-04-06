@@ -225,6 +225,7 @@ Tienda
 		producto['codigofabricante'] = '{{ producto.codigofabricante }}'
 		producto['cadenacaracteristicas'] = '{{ producto.cadenacaracteristicas }}'
     producto['nombre'] = '{{ producto.nombre }}'
+		producto['imagen'] = '{{ producto.imagen }}'
     producto['descripcion'] = '{{ producto.descripcion }}'
     producto['categoria'] = '{{ producto.categoria }}'
     producto['precio'] = '{{ producto.precio }}'
@@ -520,6 +521,7 @@ Tienda
   	for (var pro in productos){
 
   		var producto = productos[pro];
+			producto['precio'] = producto['precio'].replace(',','.')
   		var div1 = document.createElement('div')
 			div1.classList.add('col','s12','m6','l4')
 			div1.id = producto['categoria'] + producto['nombre']
@@ -534,7 +536,8 @@ Tienda
 			var img1 = document.createElement('img')
 			img1.classList.add('materialboxed')
       img1.height = '220'
-			img1.src = "{% static 'images/noimage.jpg' %}"
+			console.log("/static/images/" + producto['imagen'])
+			img1.src = "/static/images/" + producto['imagen']
 
 
 			div3.appendChild(img1)

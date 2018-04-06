@@ -8,6 +8,7 @@ class Producto(models.Model):
     minicodigo = models.CharField(max_length = 10, default = "")
     codigofabricante = models.CharField(max_length = 30, default = "")
     nombre = models.CharField(max_length = 100)
+    imagen = models.CharField(max_length = 20, default = "noimage.jpg")
     descripcion = models.CharField(max_length = 300)
     categoria = models.CharField(max_length = 100)
     precio = models.FloatField(default = 9.99)

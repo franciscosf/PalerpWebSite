@@ -225,7 +225,7 @@ Palerp
 
       </div>
 
-      
+
     </div>
   </div>
 
@@ -248,24 +248,14 @@ Palerp
       <div class="row">
         <div class="slider" id="slider2">
   <ul class="slides">
+    {% for cliente in clientes %}
     <li >
-      <img src="{% static 'images/sli11.jpg' %}">
+      <img src="/static/images/{{ cliente.imagen }}">
       <div class="caption center-align">
-        <h1 class="white-text"><b>Grifo San Martin</b></h1>
+        <h3 class="white-text red darken-3" style="text-shadow: 4px 4px 6px #000;box-shadow: 4px 4px 6px #000;"><b>{{ cliente.nombre }}</b></h3>
       </div>
     </li>
-    <li>
-      <img src="{% static 'images/sli21.jpg' %}">
-      <div class="caption left-align">
-        <h1 class="white-text"><b>Apple Inc.</b></h1>
-      </div>
-    </li>
-    <li>
-      <img src="{% static 'images/sli31.jpg' %}">
-      <div class="caption right-align">
-        <h1 class="white-text"><b>Adibas</b></h1>
-      </div>
-    </li>
+    {% endfor %}
   </ul>
 </div>
       </div>

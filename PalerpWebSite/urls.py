@@ -20,6 +20,7 @@ from django.contrib.auth.decorators import login_required
 from apps.productos.views import tienda_view, prueba
 from apps.general.views import clientes_view, index_view, nosotros_view, contactanos_view, productos_view, post_contactanos_view, usuario_view
 from apps.user.views import signup_view, activate
+
 from django.contrib.auth.views import login, logout_then_login
 
 urlpatterns = [

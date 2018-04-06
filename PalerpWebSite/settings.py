@@ -121,7 +121,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-pe'
 
 TIME_ZONE = 'UTC'
 
@@ -139,8 +139,8 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
-LOGIN_URL = reverse_lazy('usuario')
-LOGOUT_URL = reverse_lazy('login')
+#LOGIN_URL = reverse_lazy('usuario')
+#LOGOUT_URL = reverse_lazy('login')
 
 LOGIN_REDIRECT_URL = reverse_lazy('usuario')
 LOGOUT_REDIRECT_URL = reverse_lazy('login')

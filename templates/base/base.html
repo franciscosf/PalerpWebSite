@@ -39,8 +39,8 @@
         <div class="nav-wrapper red darken-3">
             <div class="container">
 
-                <a href="#!" class="brand-logo white-text"><i class="material-icons" style="font-size:30px">library_books</i> Palerp</a>
-                <a href="#" data-target="mobile-demo" class="sidenav-trigger white-text"><i class="material-icons">menu</i></a>
+                <a href="" class="brand-logo white-text"><i class="material-icons" style="font-size:30px">library_books</i> Palerp</a>
+                <a href="" data-target="mobile-demo" class="sidenav-trigger white-text"><i class="material-icons">menu</i></a>
                 <ul class="right hide-on-med-and-down">
                     {% if user.is_authenticated %}
                       <li><a class="white-text active" href="{% url 'usuario' %}"><strong>{{ user.get_username|upper }}</strong></a></li>
@@ -79,12 +79,93 @@
       </nav>
     </div>
     <div class="btnLlamanos hide-on-small-only" style="display: inline-block;">
-      <a class=" right waves-effect waves-light btn red-text text-darken-3 white"><strong><i class="material-icons left">phone</i> Te llamamos</strong></a>
+      <a class=" right waves-effect waves-light btn red-text text-darken-3 modal-trigger white" href="#modal1"><strong><i class="material-icons left">phone</i> Llamanos</strong></a>
 
     </div>
     <div class="btnLlamanosSmall hide-on-med-and-up" style="display: inline-block;">
-      <a class=" right waves-effect waves-light btn red-text text-darken-3 white"><strong><i class="material-icons">phone</i></strong></a>
+      <a class=" right waves-effect waves-light btn red-text text-darken-3 modal-trigger white" href="#modal1"><strong><i class="material-icons">phone</i></strong></a>
 
+    </div>
+    <div id="modal1" class="modal">
+      <div class="modal-content">
+        <div class="" id="modalTelefono">
+          <p class="right-align">
+            <a class="modal-action modal-close waves-effect waves-light btn red darken-3"><i class="material-icons">close</i></a>
+          </p>
+          <h2 class="center-align">Llamanos!</h2>
+          <hr>
+          <p class="center-align">Introduce tu numero de telefono para comunicarnos. NOTA : Esta llamada NO tendra ningun cargo monetario es totalmente gratis.</p>
+          <hr>
+          <div class="row">
+            <form class="col s12">
+              <div class="row">
+                <div class="input-field col s12">
+                  <i class="material-icons prefix">phone</i>
+                  <input id="telefono" type="tel" class="validate">
+                  <label for="telefono">Telephone</label>
+                </div>
+              </div>
+            </form>
+          </div>
+          <h6 class="right-align">
+            <button class="btn waves-effect waves-light green" id="btnLlamar">Llamar
+              <i class="material-icons right">phone</i>
+            </button>
+          </h6>
+
+        </div>
+        <div class="hide" id="modalCargando">
+          <h2 class="center-align green-text">Llamando a Palerp</h2>
+          <h6 class="center-align"><div class="preloader-wrapper big active">
+            <div class="spinner-layer spinner-blue">
+              <div class="circle-clipper left">
+                <div class="circle"></div>
+              </div><div class="gap-patch">
+                <div class="circle"></div>
+              </div><div class="circle-clipper right">
+                <div class="circle"></div>
+              </div>
+            </div>
+
+            <div class="spinner-layer spinner-red">
+              <div class="circle-clipper left">
+                <div class="circle"></div>
+              </div><div class="gap-patch">
+                <div class="circle"></div>
+              </div><div class="circle-clipper right">
+                <div class="circle"></div>
+              </div>
+            </div>
+
+            <div class="spinner-layer spinner-yellow">
+              <div class="circle-clipper left">
+                <div class="circle"></div>
+              </div><div class="gap-patch">
+                <div class="circle"></div>
+              </div><div class="circle-clipper right">
+                <div class="circle"></div>
+              </div>
+            </div>
+
+            <div class="spinner-layer spinner-green">
+              <div class="circle-clipper left">
+                <div class="circle"></div>
+              </div><div class="gap-patch">
+                <div class="circle"></div>
+              </div><div class="circle-clipper right">
+                <div class="circle"></div>
+              </div>
+            </div>
+          </div></h6>
+          <p class="center-align">Marcando...</p>
+          <h5 class="center-align"><a class="modal-action modal-close waves-effect waves-light btn red darken-3">Cancelar llamada</a></h5>
+        </div>
+        <div class="hide" id="modalError">
+          <h5 class="center-align"><img src="{% static 'images/notok.png' %}" height="200"/></h5>
+          <h4 class="center-align">Lo sentimos usted no cuenta con saldo sufuciente para realizar este tipo de llamandas.</h4>
+          <h5 class="center-align"><a class="waves-effect waves-light btn red darken-3" href="{% url 'index' %}">Volver al inicio</a></h5>
+        </div>
+      </div>
     </div>
     {% endblock %}
 
@@ -124,7 +205,60 @@
     $(document).ready(function(){
       $('.sidenav').sidenav();
     });
+    $(document).ready(function(){
+    $('.modal').modal({
+      onCloseEnd: function (){
+        var modalTelefono = document.getElementById('modalTelefono')
+        var modalCargando = document.getElementById('modalCargando')
+        var modalError = document.getElementById('modalError')
+        modalTelefono.classList.remove('hide')
+        modalCargando.classList.add('hide')
+        modalError.classList.add('hide')
+      },
+      dismissible: false,
+    });
+  });
+
+    var btnLlamar = document.getElementById('btnLlamar')
+    btnLlamar.addEventListener('click', function (){
+      if(document.getElementById('telefono').value != ''){
+        var modalTelefono = document.getElementById('modalTelefono')
+        var modalCargando = document.getElementById('modalCargando')
+        var modalError = document.getElementById('modalError')
+        modalTelefono.classList.add('hide')
+        modalCargando.classList.remove('hide')
+
+        setTimeout(function () {
+          if(modalTelefono.classList.contains('hide')){
+            modalCargando.classList.add('hide')
+            modalError.classList.remove('hide')
+          }
+        },3000)
+      }
+    })
     </script>
+
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '194411797951485',
+      cookie     : true,
+      xfbml      : true,
+      version    : 'v2.12'
+    });
+
+    FB.AppEvents.logPageView();
+
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "https://connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
 
     {% block extrajs %}
     {% endblock %}

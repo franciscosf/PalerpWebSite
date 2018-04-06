@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect
 from django.core.mail import send_mail
 
 from apps.general.forms import PosibleClienteForm
+from apps.general.models import Cliente
 
 # Create your views here.
 
@@ -10,6 +11,7 @@ def usuario_view(request):
     return render(request, 'views/usuario.html')
 
 def index_view(request):
+
     if request.method == 'POST':
         form = PosibleClienteForm(request.POST)
         if form.is_valid():
@@ -57,7 +59,8 @@ Telefono: {3}""".format(RUC,nombre,email,telefono),
     else:
         form = PosibleClienteForm()
 
-    return render(request, 'views/index.html', {'form': form})
+    clientes = Cliente.objects.all()[:5]
+    return render(request, 'views/index.html', {'form': form, 'clientes': clientes})
 
 def post_contactanos_view(request):
 
@@ -75,4 +78,5 @@ def contactanos_view(request):
     return render(request, 'views/contactanos.html', {'form':form})
 
 def clientes_view(request):
-    return render(request, 'views/clientes.html')
+    clientes = Cliente.objects.all()
+    return render(request, 'views/clientes.html', {'clientes':clientes})
