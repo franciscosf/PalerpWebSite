@@ -1,4 +1,4 @@
-{% load staticfiles %}
+ {% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -49,8 +49,8 @@
                     <li><a class="white-text" href="{% url 'nosotros' %}">Nosotros</a></li>
                     <li><a class="white-text" href="{% url 'productos' %}">Productos</a></li>
                     <li><a class="white-text" href="{% url 'tienda' %}">Tienda</a></li>
-                    <li><a class="white-text" href="{% url 'contactanos' %}">Contacto</a></li>
                     <li><a class="white-text" href="{% url 'clientes' %}">Clientes</a></li>
+                    <li><a class="white-text" href="{% url 'contactanos' %}">Contacto</a></li>
                     {% if user.is_authenticated %}
                       <li><a class="white-text" href="{% url 'logout' %}">Cerrar sesion</a></li>
                     {% else %}

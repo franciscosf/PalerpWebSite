@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import datetime
 
 # Create your models here.
 
@@ -27,5 +28,17 @@ class Compra(models.Model):
         on_delete=models.CASCADE,
     )
     nitems = models.IntegerField()
+    ####Campos proporcionados por PAYTOPERU
+    #INICIO
+    froma_pago = models.CharField(max_length = 21, null = True)
+    medio_pago = models.CharField(max_length = 21, null = True)
+    numero_pedido = models.IntegerField(null = True)
+    codigo_autorizacion = models.CharField(max_length = 11, null = True)
+    numero_tarjeta = models.CharField(max_length = 24, null = True)
+    nombre_tarjeta_habiente = models.CharField(max_length = 201, null = True)
+    email = models.CharField(max_length = 150, null = True)
+    fecha = models.DateTimeField(null = True)
+    #FIN
+
     def __str__(self):
         return self.codigo

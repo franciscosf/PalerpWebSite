@@ -15,19 +15,18 @@ def confirmarpago(request):
 	if request.method == 'POST':
 		data = json.loads(request.body.decode('utf-8'))
 		codigo_transaccion = data['codigo_transaccion']
-		# forma_pago = data['forma_pago']
-		# medio_pago = data['medio_pago']
+		forma_pago = data['forma_pago']
+		medio_pago = data['medio_pago']
 		importe_autorizado = data['importe_autorizado']
-		# numero_pedido = data['numero_pedido']
-		# codigo_autorizacion = data['codigo_autorizacion']
-		# numero_tarjeta = data['numero_tarjeta']
-		# nombre_tarjeta_habiente = data['nombre_tarjeta_habiente']
-		# email = data['email']
-		# fecha = data['fecha']
+		numero_pedido = data['numero_pedido']
+		codigo_autorizacion = data['codigo_autorizacion']
+		numero_tarjeta = data['numero_tarjeta']
+		nombre_tarjeta_habiente = data['nombre_tarjeta_habiente']
+		email = data['email']
+		fecha = data['fecha']
 		#do what you have to do
 		print(codigo_transaccion)
 		comp = Compra.objects.get(codigo = codigo_transaccion)
-		print(comp.importe)
 		if float(importe_autorizado) == float(comp.importe):
 
 
@@ -66,9 +65,7 @@ def tienda_view(request):
 		print(idq)
 		n1 = idq // 100000
 		n2 = idq % 100000
-		q.codigo = "C{0}P{1}".format(formatIntegerWithZeros(n1,3),
-
-		formatIntegerWithZeros(n2,5))
+		q.codigo = "C{0}P{1}".format(formatIntegerWithZeros(n1,3),formatIntegerWithZeros(n2,5))
 		q.save()
 
 		return render(request, 'views/formToPayToPeru.html', {'user': cliente, 'compra': q, 'RUCPalerp': '20491228297' })
