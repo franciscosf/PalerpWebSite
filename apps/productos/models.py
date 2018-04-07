@@ -20,6 +20,7 @@ class Producto(models.Model):
 class Compra(models.Model):
     codigo = models.CharField(max_length = 10, null = True)
     tabladetalle = models.TextField()
+    pagado = models.BooleanField( default = False)
     importe = models.FloatField()
     cliente = models.ForeignKey(
         User,

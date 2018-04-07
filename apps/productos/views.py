@@ -14,10 +14,10 @@ import json
 def confirmarpago(request):
 	if request.method == 'POST':
 		data = json.loads(request.body.decode('utf-8'))
-		# codigo_transaccion = data['codigo_transaccion']
+		codigo_transaccion = data['codigo_transaccion']
 		# forma_pago = data['forma_pago']
 		# medio_pago = data['medio_pago']
-		# importe_autorizado = data['importe_autorizado']
+		importe_autorizado = data['importe_autorizado']
 		# numero_pedido = data['numero_pedido']
 		# codigo_autorizacion = data['codigo_autorizacion']
 		# numero_tarjeta = data['numero_tarjeta']
@@ -25,12 +25,23 @@ def confirmarpago(request):
 		# email = data['email']
 		# fecha = data['fecha']
 		#do what you have to do
+		print(codigo_transaccion)
+		comp = Compra.objects.get(codigo = codigo_transaccion)
+		print(comp.importe)
+		if float(importe_autorizado) == float(comp.importe):
 
-		resJSON = {
-			'codigo_transaccion': 'C000P00021',
-			'estado': 'correcto',
-			'mensaje': 'unMensaje'
-		}
+
+			resJSON = {
+				'codigo_transaccion': codigo_transaccion,
+				'estado': 'correcto',
+				'mensaje': 'unMensaje'
+			}
+		else:
+			resJSON = {
+				'codigo_transaccion': 'C000P00021',
+				'estado': 'error',
+				'mensaje': 'unMensaje'
+			}
 		return JsonResponse(resJSON)
 
 def formatIntegerWithZeros(n, zeros):
