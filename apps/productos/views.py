@@ -25,8 +25,13 @@ def confirmarpago(request):
 		email = data['email']
 		fecha = data['fecha']
 		#do what you have to do
-		print(codigo_transaccion)
 		comp = Compra.objects.get(codigo = codigo_transaccion)
+		print(codigo_transaccion)
+		# try:
+		# 	comp = Compra.objects.get(codigo = codigo_transaccion)
+		#
+		# except:
+
 		if float(importe_autorizado) == float(comp.importe):
 
 

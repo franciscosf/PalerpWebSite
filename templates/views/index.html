@@ -250,7 +250,7 @@ Palerp
   <ul class="slides">
     {% for cliente in clientes %}
     <li >
-      <img src="/static/images/{{ cliente.imagen }}">
+      <img src="{% static cliente.imagen.url|slice:"7:" %}">
       <div class="caption center-align">
         <h3 class="white-text red darken-3" style="text-shadow: 4px 4px 6px #000;box-shadow: 4px 4px 6px #000;"><b>{{ cliente.nombre }}</b></h3>
       </div>
@@ -279,7 +279,7 @@ Palerp
   </div>
   <div class="row container">
     <div class="col s12 m12 l9">
-      <h5 class="center-align white-text"><i class="fab fa-facebook-square" style="font-size:75;color:#3b5998"></i>___<i class="fab fa-youtube" style="font-size:75;color:#cc181e"></i>___<i class="fab fa-whatsapp" style="font-size:75;color:#128c7e"></i></h5>
+      <h5 class="center-align white-text"><a href="https://www.facebook.com/pale.consultores"><i class="fab fa-facebook-square" style="font-size:75;color:#3b5998"></i></a>___<i class="fab fa-youtube" style="font-size:75;color:#cc181e"></i>___<i class="fab fa-whatsapp" style="font-size:75;color:#128c7e"></i></h5>
     </div>
   </div>
 </div>

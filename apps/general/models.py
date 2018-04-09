@@ -13,7 +13,6 @@ class PosibleCliente(models.Model):
 
 class Cliente(models.Model):
     nombre = models.CharField(max_length = 200)
-    imagen = models.CharField(max_length = 205)
-
+    imagen = models.ImageField(upload_to = 'static/images/', default = 'static/images/noimage.jpg')
     def __str__(self):
         return self.nombre

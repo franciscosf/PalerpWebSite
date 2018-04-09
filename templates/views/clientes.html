@@ -35,9 +35,9 @@
   <ul class="slides">
     {% for cliente in clientes %}
     <li >
-      <img src="/static/images/{{ cliente.imagen }}">
+      <img src="{% static cliente.imagen.url|slice:"7:" %}">
       <div class="caption center-align">
-        <h1 class="white-text red darken-3" style="text-shadow: 4px 4px 6px #000;box-shadow: 4px 4px 6px #000;"><b>{{ cliente.nombre }}</b></h1>
+        <h3 class="white-text red darken-3" style="text-shadow: 4px 4px 6px #000;box-shadow: 4px 4px 6px #000;"><b>{{ cliente.nombre }}</b></h3>
       </div>
     </li>
     {% endfor %}

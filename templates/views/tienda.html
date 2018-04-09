@@ -536,8 +536,8 @@ Tienda
 			var img1 = document.createElement('img')
 			img1.classList.add('materialboxed')
       img1.height = '220'
-			console.log("/static/images/" + producto['imagen'])
-			img1.src = "/static/images/" + producto['imagen']
+			console.log("/static/" + producto['imagen'].substring(7))
+			img1.src = "/static/" + producto['imagen'].substring(7)
 
 
 			div3.appendChild(img1)
