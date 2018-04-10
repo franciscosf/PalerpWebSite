@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.http import JsonResponse
 from django.contrib.auth.models import User
@@ -81,6 +81,61 @@ def tienda_view(request):
 
 def prueba(request):
 	return render(request, 'views/prueba.html')
+
+@csrf_exempt
+def apivalidarcompra(request):
+	if request.method == "POST":
+		data = json.loads(request.body.decode('utf-8'))
+		total = float(0)
+		productosEnCarrito = {}
+		r = True
+		for key, val in data.items():
+			pro = val
+			q = Producto.objects.filter(codigo = pro['codigo'])
+			if len(q) == 1 and pro['cantidad'] > 0:
+				q = q[0]
+				proNuevo = {}
+				proNuevo['cadenacaracteristicas'] = q.cadenacaracteristicas
+				proNuevo['cantidad'] = pro['cantidad']
+				proNuevo['categoria'] = q.categoria
+				proNuevo['codigo'] = q.codigo
+				proNuevo['codigofabricante'] = q.codigofabricante
+				proNuevo['descripcion'] = q.descripcion
+				proNuevo['imagen'] = q.imagen.url
+				proNuevo['nombre'] = q.nombre
+				proNuevo['precio'] = q.precio
+				productosEnCarrito[q.categoria + q.nombre] = proNuevo
+				cantidad = float(pro['cantidad'])
+				precio = float(q.precio)
+				total += float(cantidad * precio)
+			else:
+				r = False
+				break
+
+		if r == False :
+			resJSON = {
+				'estado' : 'W',
+				'total' : total,
+				'pec' : productosEnCarrito,
+			}
+
+		else:
+			resJSON = {
+				'estado' : 'R',
+				'total' : total,
+				'pec' : productosEnCarrito,
+			}
+		return JsonResponse(resJSON)
+	else:
+		return render(request, 'views/message.html', {
+			'url_image': 'notok.png',
+			'tittle_message': '404 Not Found',
+			'message': 'Lo sentimos no encontramos la pagina que esta buscando.',
+			'url_btn': 'index',
+			'color_tittle': 'green-text',
+			'btn_message': 'Ir al inicio',
+		})
+
 
 '''def payToPeruPost_view(request):
 	if request.methos == 'POST':

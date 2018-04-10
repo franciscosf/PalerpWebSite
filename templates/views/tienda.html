@@ -207,7 +207,7 @@ Tienda
 	var categorias = {};
 
 	//llenamos un diccionario con los productos
-	var productos = {};
+	var productosFake = {};
 
 	//prodecemos a llenar lLenar los diccionarios declarados
   {% for producto in productos %}
@@ -229,8 +229,11 @@ Tienda
     producto['descripcion'] = '{{ producto.descripcion }}'
     producto['categoria'] = '{{ producto.categoria }}'
     producto['precio'] = '{{ producto.precio }}'
-    productos['{{ producto.categoria }}' +  '{{ producto.nombre }}'] = producto
+    productosFake['{{ producto.categoria }}' +  '{{ producto.nombre }}'] = producto
   {% endfor %}
+
+	const productos = productosFake
+	//productos['MotherboardMainboard Core 2 Duo S775 FSB1333 - FOXCONN']['precio'] = '00.00'
 
 	//creamos un diccionario donde tendremos los productos que estan en el carrito
 	var productosEnCarrito = {}
@@ -250,60 +253,79 @@ Tienda
 			scrollTop: '0px'
 		}, 300);
 		$('.modal').modal('close');
+		total = 0
+
 		if(Object.keys(productosEnCarrito).length === 0){
 			M.toast({html: 'El carrito esta vacio', classes: 'rounded'});
 
 		}else{
+			$.ajax({
+	        type: "POST",
+	        url: "http://localhost:8000/apivalidarcompra/",
+	        contentType: "application/json",
+	        dataType: "json",
+	        data: JSON.stringify(productosEnCarrito),
+	        success: function(response) {
+	            if(response.estado == 'R'){
+									productosEnCarrito = response.pec
+									var tienda = document.getElementById('tienda')
+									var cotizacion = document.getElementById('cotizacion')
 
-			var tienda = document.getElementById('tienda')
-			var cotizacion = document.getElementById('cotizacion')
+									tienda.classList.add('hide')
+									cotizacion.classList.remove('hide')
 
-			tienda.classList.add('hide')
-			cotizacion.classList.remove('hide')
+									var tbodyResumenCompra = document.getElementById('tbodyResumenCompra')
+									var item = 1
+									for (var namePro in productosEnCarrito){
 
-			var tbodyResumenCompra = document.getElementById('tbodyResumenCompra')
-			var item = 1
-			for (var namePro in productosEnCarrito){
+										var tr = document.createElement('tr')
+										var tdItem = document.createElement('td')
+										var tdNombre = document.createElement('td')
+										var tdCantidad = document.createElement('td')
+										var tdVrUnitario = document.createElement('td')
+										var tdVrTotal = document.createElement('td')
 
-				var tr = document.createElement('tr')
-				var tdItem = document.createElement('td')
-				var tdNombre = document.createElement('td')
-				var tdCantidad = document.createElement('td')
-				var tdVrUnitario = document.createElement('td')
-				var tdVrTotal = document.createElement('td')
+										var pro = productosEnCarrito[namePro]
+										tdItem.innerText = item
+										tdNombre.innerText = pro['nombre']
+										tdCantidad.innerText = pro['cantidad']
+										tdVrUnitario.innerText = "S/. " + parseFloat(pro['precio']).toFixed(2)
+										tdVrTotal.innerText = "S/. " + parseFloat(parseFloat(pro['precio']) * parseFloat(pro['cantidad'])).toFixed(2)
 
-				var pro = productosEnCarrito[namePro]
-				tdItem.innerText = item
-				tdNombre.innerText = pro['nombre']
-				tdCantidad.innerText = pro['cantidad']
-				tdVrUnitario.innerText = "S/. " + parseFloat(pro['precio']).toFixed(2)
-				tdVrTotal.innerText = "S/. " + parseFloat(parseFloat(pro['precio']) * parseFloat(pro['cantidad'])).toFixed(2)
+										tr.appendChild(tdItem)
+										tr.appendChild(tdNombre)
+										tr.appendChild(tdCantidad)
+										tr.appendChild(tdVrUnitario)
+										tr.appendChild(tdVrTotal)
 
-				tr.appendChild(tdItem)
-				tr.appendChild(tdNombre)
-				tr.appendChild(tdCantidad)
-				tr.appendChild(tdVrUnitario)
-				tr.appendChild(tdVrTotal)
+										tbodyResumenCompra.appendChild(tr)
+										item++
+									}
+									var tr = document.createElement('tr')
+									var tdItem = document.createElement('td')
+									var tdNombre = document.createElement('td')
+									var tdCantidad = document.createElement('td')
+									var tdVrUnitario = document.createElement('td')
+									var tdVrTotal = document.createElement('td')
+									tdVrUnitario.innerText = 'Total'
+									tdVrTotal.innerText = "S/. " + response.total.toFixed(2)
 
-				tbodyResumenCompra.appendChild(tr)
-				item++
-			}
-			var tr = document.createElement('tr')
-			var tdItem = document.createElement('td')
-			var tdNombre = document.createElement('td')
-			var tdCantidad = document.createElement('td')
-			var tdVrUnitario = document.createElement('td')
-			var tdVrTotal = document.createElement('td')
-			tdVrUnitario.innerText = 'Total'
-			tdVrTotal.innerText = document.getElementById('totalCarrito').innerText
+									tr.appendChild(tdItem)
+									tr.appendChild(tdNombre)
+									tr.appendChild(tdCantidad)
+									tr.appendChild(tdVrUnitario)
+									tr.appendChild(tdVrTotal)
 
-			tr.appendChild(tdItem)
-			tr.appendChild(tdNombre)
-			tr.appendChild(tdCantidad)
-			tr.appendChild(tdVrUnitario)
-			tr.appendChild(tdVrTotal)
+									tbodyResumenCompra.appendChild(tr)
+							}else{
+									location.reload()
+							}
+	        },
+	        error: function(response) {
+	            window.location.replace("http://localhost:8000/apivalidarcompra/");
+	        }
+			});
 
-			tbodyResumenCompra.appendChild(tr)
 
 		}
 	}
@@ -853,22 +875,89 @@ Tienda
 	}
 
 	function comprar(ev){
-		var nitems = Object.keys(productosEnCarrito).length
+		if(Object.keys(productosEnCarrito).length === 0){
+			M.toast({html: 'El carrito esta vacio', classes: 'rounded'});
 
-		var inputTabla = document.getElementById('id_tabladetalle')
-		var tablaResumen = document.getElementById('tablaResumen')
-		inputTabla.value = document.getHTML(tablaResumen,true)
-		var inputImporte = document.getElementById('id_importe')
-		var totalCarrito = document.getElementById('totalCarrito')
-		inputImporte.value = parseFloat(totalCarrito.innerHTML.substring(4))
-		var inputCliente = document.getElementById('id_cliente')
-		var idCliente = document.getElementById('id_user')
-		inputCliente.value = idCliente.value
-		var inputnItems = document.getElementById('id_nitems')
-		inputnItems.value = nitems
+		}else{
+			$.ajax({
+	        type: "POST",
+	        url: "http://localhost:8000/apivalidarcompra/",
+	        contentType: "application/json",
+	        dataType: "json",
+	        data: JSON.stringify(productosEnCarrito),
+	        success: function(response) {
+	            if(response.estado == 'R'){
+									productosEnCarrito = response.pec
 
-		var btnSend = document.getElementById('btnSubmitForm')
-		btnSend.click()
+									tableStr = `<table class=''>
+																<thead class='left-align'>
+																	<tr>
+																		<th>Item</th>
+													          <th>Nombre</th>
+													          <th>Cantidad</th>
+																		<th>Vr. Unitario</th>
+																		<th>Vr. Total</th>
+													        </tr>
+												      	</thead>
+																<tbody>`
+
+									var tbodyResumenCompra = document.createElement('tbody')
+									var item = 1
+									for (var namePro in productosEnCarrito){
+										var pro = productosEnCarrito[namePro]
+										trStr = `
+											<tr>
+												<td>${item}</td>
+												<td>${pro['nombre']}</td>
+												<td>${pro['cantidad']}</td>
+												<td>${"S/. " + parseFloat(pro['precio']).toFixed(2)}</td>
+												<td>${"S/. " + parseFloat(parseFloat(pro['precio']) * parseFloat(pro['cantidad'])).toFixed(2)}</td>
+											</tr>
+										`
+
+										tableStr += trStr
+										item++
+									}
+									trStr = `
+										<tr>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td>${"Total"}</td>
+											<td>${"S/. " + response.total.toFixed(2)}</td>
+										</tr>
+									`
+									tableStr += trStr
+
+									tableStr += `</tbody>
+								</table>`
+
+									// tbodyResumenCompra.appendChild(tr)
+									var nitems = Object.keys(productosEnCarrito).length
+
+									var inputTabla = document.getElementById('id_tabladetalle')
+									inputTabla.value = document.getHTML(stringToHTML(tableStr),true)
+									var inputImporte = document.getElementById('id_importe')
+									inputImporte.value = parseFloat(response.total.toFixed(2))
+									var inputCliente = document.getElementById('id_cliente')
+									var idCliente = document.getElementById('id_user')
+									inputCliente.value = idCliente.value
+									var inputnItems = document.getElementById('id_nitems')
+									inputnItems.value = nitems
+
+									var btnSend = document.getElementById('btnSubmitForm')
+									btnSend.click()
+							}else{
+									location.reload()
+							}
+	        },
+	        error: function(response) {
+	            window.location.replace("http://localhost:8000/apivalidarcompra/");
+	        }
+			});
+
+
+		}
 	}
 
 	document.getHTML = function(who, deep){

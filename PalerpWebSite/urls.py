@@ -17,7 +17,7 @@ from django.conf.urls import url,include
 from django.contrib import admin
 from django.contrib.auth.decorators import login_required
 
-from apps.productos.views import tienda_view, prueba, confirmarpago
+from apps.productos.views import tienda_view, prueba, confirmarpago, apivalidarcompra
 from apps.general.views import clientes_view, index_view, nosotros_view, contactanos_view, productos_view, post_contactanos_view, usuario_view
 from apps.user.views import signup_view, activate
 
@@ -39,4 +39,5 @@ urlpatterns = [
     url(r'^clientes/$', clientes_view, name = 'clientes'),
     url(r'^test/', prueba, name = 'prueba'),
     url(r'^confirmarpago/', confirmarpago, name = 'confirmarpago'),
+    url(r'^apivalidarcompra/', apivalidarcompra, name = 'apivalidarcompra'),
 ]

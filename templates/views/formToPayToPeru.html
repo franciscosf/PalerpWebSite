@@ -7,16 +7,16 @@
 {% if user.is_authenticated %}
 <div class="hide">
 	<form id='formCompra' class="" action="http://desarrollo.paytoperu.com/eng/payments" method="post" novalidate>
-		<input type="number" name="importe" id="importe" decimals="2" decimal-point="." value="{{ compra.importe }}" required />
-		<input type="hidden" name="keymerchant" id="keymerchant" value="{{ RUCPalerp }}"  required/>
-		<input type="text" name="codigo_transaccion" id="codigo_transaccion" value="{{ compra.codigo }}" required/>
-		<input type="number" name="items" id="items" value="{{ compra.nitems }}" required/>
-		<input type="hidden" name="moneda" id="moneda" value="1" required/>
-		<input type="email" name="email" id="email" value="{{ user.email }}" required/>
-		<input type="text" name="nombres" id="nombres" value="{{ user.first_name }}" required/>
-		<input type="text" name="apellidos" id="apellidos" value="{{ user.last_name }}" required/>
-		<input type="text" name="descripcion" id="descripcion" value="{{ compra.tabladetalle }}" required/>
-		<input type="submit" name="enviar" id="enviarCompra" value="enviar">
+		<input type="number" name="importe" id="importe" decimals="2" decimal-point="." value="{{ compra.importe }}" readonly="readonly" required />
+		<input type="hidden" name="keymerchant" id="keymerchant" value="{{ RUCPalerp }}" readonly="readonly"  required/>
+		<input type="text" name="codigo_transaccion" id="codigo_transaccion" value="{{ compra.codigo }}" readonly="readonly" required/>
+		<input type="number" name="items" id="items" value="{{ compra.nitems }}" readonly="readonly" required/>
+		<input type="hidden" name="moneda" id="moneda" value="1" readonly="readonly" required/>
+		<input type="email" name="email" id="email" value="{{ user.email }}" readonly="readonly" required/>
+		<input type="text" name="nombres" id="nombres" value="{{ user.first_name }}" readonly="readonly" required/>
+		<input type="text" name="apellidos" id="apellidos" value="{{ user.last_name }}" readonly="readonly" required/>
+		<input type="text" name="descripcion" id="descripcion" value="{{ compra.tabladetalle }}" readonly="readonly" required/>
+		<input type="submit" name="enviar" id="enviarCompra" value="enviar" readonly="readonly" >
 	</form>
 </div>
 
@@ -36,6 +36,6 @@
   setTimeout(function (){
     var btnSend = document.getElementById('enviarCompra')
 		btnSend.click()
-  },1500)
+  },500)
 </script>
 {% endblock %}
