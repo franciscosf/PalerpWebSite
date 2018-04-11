@@ -7,7 +7,7 @@
 {% if user.is_authenticated %}
 <div class="hide">
 	<form id='formCompra' class="" action="http://desarrollo.paytoperu.com/eng/payments" method="post" novalidate>
-		<input type="number" name="importe" id="importe" decimals="2" decimal-point="." value="{{ compra.importe }}" readonly="readonly" required />
+		<input type="number" name="importe" id="importe" decimals="2" decimal-point="." value="{{ importe }}" readonly="readonly" required />
 		<input type="hidden" name="keymerchant" id="keymerchant" value="{{ RUCPalerp }}" readonly="readonly"  required/>
 		<input type="text" name="codigo_transaccion" id="codigo_transaccion" value="{{ compra.codigo }}" readonly="readonly" required/>
 		<input type="number" name="items" id="items" value="{{ compra.nitems }}" readonly="readonly" required/>
@@ -36,6 +36,6 @@
   setTimeout(function (){
     var btnSend = document.getElementById('enviarCompra')
 		btnSend.click()
-  },500)
+  },1000)
 </script>
 {% endblock %}

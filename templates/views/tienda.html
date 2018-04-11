@@ -16,7 +16,7 @@ Tienda
 		{{ form.as_p }}
 		<input type="submit" name="send" value="send" id="btnSubmitForm">
 	</form>
-	<form >
+	<form>
 		<input id="id_user" type="number" name="id_user" value="{{ request.user.id }}">
 	</form>
 </div>
@@ -252,13 +252,15 @@ Tienda
 		$('body, html').animate({
 			scrollTop: '0px'
 		}, 300);
+
 		$('.modal').modal('close');
-		total = 0
+
 
 		if(Object.keys(productosEnCarrito).length === 0){
 			M.toast({html: 'El carrito esta vacio', classes: 'rounded'});
 
 		}else{
+			productosEnCarrito['case'] = '0'
 			$.ajax({
 	        type: "POST",
 	        url: "http://localhost:8000/apivalidarcompra/",
@@ -879,6 +881,7 @@ Tienda
 			M.toast({html: 'El carrito esta vacio', classes: 'rounded'});
 
 		}else{
+			productosEnCarrito['case'] = '1'
 			$.ajax({
 	        type: "POST",
 	        url: "http://localhost:8000/apivalidarcompra/",
@@ -888,62 +891,8 @@ Tienda
 	        success: function(response) {
 	            if(response.estado == 'R'){
 									productosEnCarrito = response.pec
-
-									tableStr = `<table class=''>
-																<thead class='left-align'>
-																	<tr>
-																		<th>Item</th>
-													          <th>Nombre</th>
-													          <th>Cantidad</th>
-																		<th>Vr. Unitario</th>
-																		<th>Vr. Total</th>
-													        </tr>
-												      	</thead>
-																<tbody>`
-
-									var tbodyResumenCompra = document.createElement('tbody')
-									var item = 1
-									for (var namePro in productosEnCarrito){
-										var pro = productosEnCarrito[namePro]
-										trStr = `
-											<tr>
-												<td>${item}</td>
-												<td>${pro['nombre']}</td>
-												<td>${pro['cantidad']}</td>
-												<td>${"S/. " + parseFloat(pro['precio']).toFixed(2)}</td>
-												<td>${"S/. " + parseFloat(parseFloat(pro['precio']) * parseFloat(pro['cantidad'])).toFixed(2)}</td>
-											</tr>
-										`
-
-										tableStr += trStr
-										item++
-									}
-									trStr = `
-										<tr>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td>${"Total"}</td>
-											<td>${"S/. " + response.total.toFixed(2)}</td>
-										</tr>
-									`
-									tableStr += trStr
-
-									tableStr += `</tbody>
-								</table>`
-
-									// tbodyResumenCompra.appendChild(tr)
-									var nitems = Object.keys(productosEnCarrito).length
-
-									var inputTabla = document.getElementById('id_tabladetalle')
-									inputTabla.value = document.getHTML(stringToHTML(tableStr),true)
-									var inputImporte = document.getElementById('id_importe')
-									inputImporte.value = parseFloat(response.total.toFixed(2))
-									var inputCliente = document.getElementById('id_cliente')
-									var idCliente = document.getElementById('id_user')
-									inputCliente.value = idCliente.value
-									var inputnItems = document.getElementById('id_nitems')
-									inputnItems.value = nitems
+									var inputCodigo = document.getElementById('id_codigo')
+									inputCodigo.value = response.codigo
 
 									var btnSend = document.getElementById('btnSubmitForm')
 									btnSend.click()

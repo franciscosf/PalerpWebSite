@@ -8,22 +8,13 @@ class CompraForm(forms.ModelForm):
         model = Compra
 
         fields = [
-            'tabladetalle',
-            'importe',
-            'cliente',
-            'nitems',
+            'codigo',
         ]
 
         labels = {
-            'tabladetalle': 'Tabla de detalle',
-            'importe': 'Importe',
-            'cliente': 'Cliente',
-            'nitems': 'Numero de Items',
+            'codigo': 'Codigo de compra',
         }
 
         widgets = {
-            'tabladetalle': forms.TextInput(attrs={'type':'text'}),
-            'importe': forms.TextInput(attrs={'type':'tel'}),
-            'cliente': forms.TextInput(attrs={'type':'tel'}),
-            'nitems': forms.TextInput(attrs={'type':'tel'}),
+            'codigo' : forms.TextInput(attrs={'type':'text'}),
         }
