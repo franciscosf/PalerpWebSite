@@ -83,8 +83,7 @@ def tienda_view(request):
 	productos = Producto.objects.all()
 	return render(request, 'views/tienda.html', {'productos':productos, 'form': form})
 
-def prueba(request):
-	return render(request, 'views/prueba.html')
+
 
 @csrf_exempt
 def apivalidarcompra(request):
@@ -158,12 +157,3 @@ def apivalidarcompra(request):
 			'color_tittle': 'green-text',
 			'btn_message': 'Ir al inicio',
 		})
-
-
-'''def payToPeruPost_view(request):
-	if request.methos == 'POST':
-		re_POST = request.POST
-		codigo_transaccion = re_POST['codigo_transaccion']
-		forma_pago = re_POST['forma_pago']
-		medio_pago = re_POST['medio_pago']
-		'''

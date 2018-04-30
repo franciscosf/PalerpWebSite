@@ -263,7 +263,7 @@ Tienda
 			productosEnCarrito['case'] = '0'
 			$.ajax({
 	        type: "POST",
-	        url: "http://localhost:8000/apivalidarcompra/",
+	        url: "/apivalidarcompra/",
 	        contentType: "application/json",
 	        dataType: "json",
 	        data: JSON.stringify(productosEnCarrito),
@@ -324,7 +324,7 @@ Tienda
 							}
 	        },
 	        error: function(response) {
-	            window.location.replace("http://localhost:8000/apivalidarcompra/");
+	            window.location.replace("/apivalidarcompra/");
 	        }
 			});
 
@@ -884,7 +884,7 @@ Tienda
 			productosEnCarrito['case'] = '1'
 			$.ajax({
 	        type: "POST",
-	        url: "http://localhost:8000/apivalidarcompra/",
+	        url: "/apivalidarcompra/",
 	        contentType: "application/json",
 	        dataType: "json",
 	        data: JSON.stringify(productosEnCarrito),
@@ -901,7 +901,7 @@ Tienda
 							}
 	        },
 	        error: function(response) {
-	            window.location.replace("http://localhost:8000/apivalidarcompra/");
+	            window.location.replace("/apivalidarcompra/");
 	        }
 			});
 

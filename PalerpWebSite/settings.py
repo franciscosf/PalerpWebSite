@@ -26,7 +26,7 @@ SECRET_KEY = '+m5lg&9x1$w4$=^2=k64j!6+l4g9%j+3ff14i0e37vkdmyrz-+'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -150,8 +150,8 @@ LOGOUT_REDIRECT_URL = reverse_lazy('login')
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 25
-EMAIL_HOST_USER = 'cftigre3@gmail.com'
-EMAIL_HOST_PASSWORD = 'brigadier'
+EMAIL_HOST_USER = "#PALEEMAIL"
+EMAIL_HOST_PASSWORD = "#PALEEMAILPASSWORD"
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 SOCIAL_AUTH_FACEBOOK_KEY = '194411797951485'  # App ID

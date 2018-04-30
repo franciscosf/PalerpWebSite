@@ -62,10 +62,6 @@ Telefono: {3}""".format(RUC,nombre,email,telefono),
     clientes = Cliente.objects.all()[:5]
     return render(request, 'views/index.html', {'form': form, 'clientes': clientes})
 
-def post_contactanos_view(request):
-
-    return render(request, 'views/message.html')
-
 def productos_view(request):
     return render(request, 'views/productos.html')
 
